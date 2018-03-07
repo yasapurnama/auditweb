@@ -51,4 +51,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Download::class);
     }
+
+    public function email_sent()
+    {
+        return $this->hasMany(EmailSent::class);
+    }
 }

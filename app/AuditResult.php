@@ -25,4 +25,9 @@ class AuditResult extends Model
     {
         return $this->hasOne(Download::class);
     }
+
+    public function email_sent()
+    {
+        return $this->hasMany(EmailSent::class);
+    }
 }

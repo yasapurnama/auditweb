@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use Exception;
+use App\EmailSent;
 use App\Mail\AuditReport;
 use App\Events\AuditResultCreated;
 use Illuminate\Support\Facades\Mail;
@@ -41,7 +42,14 @@ class SendEmails
                 Mail::to(Auth::user()->email)
                     ->send(new AuditReport($event));
             }
+            $email_sent = EmailSent::create([
+                'user_id' => Auth::user()->id,
+                'audit_result_id' => $event->auditresults->id,
+                'email' => $event->auditresults->email,
+                'owner' => $event->auditresults->owner
+            ]);
             
+
         } catch (Exception $e) {
             report($e);
         }
