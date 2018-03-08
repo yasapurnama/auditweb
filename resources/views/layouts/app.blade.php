@@ -74,6 +74,19 @@
         </div>
         <script src="{{ asset('js/vendor.js') }}"></script>
         <script src="{{ asset('js/app.js') }}"></script>
+<script type="text/javascript">
+$(function() {
+
+    $('#notifications-show').click(function(){
+        $.getJSON("{{ route('notification.update') }}", function(data) {
+            $.each(data, function(key, notif) {
+                $('#notiftime-'+notif.id).html(notif.created_at);
+            });
+        });
+    });
+
+});
+</script>
 @yield('script')
     </body>
 </html>
