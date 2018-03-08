@@ -46,7 +46,7 @@ class SendEmails
                     'user_id' => Auth::user()->id,
                     'email_sent_id' => $email_sent_user->id,
                     'notif_message' => 'Email report sent to '.$email_sent_user->email,
-                    'readed' => false
+                    'readed' => false,
                     'owner_report' => false
                 ]);
 
@@ -62,7 +62,7 @@ class SendEmails
                     'user_id' => Auth::user()->id,
                     'email_sent_id' => $email_sent_owner->id,
                     'notif_message' => 'Email report sent to '.$email_sent_owner->email,
-                    'readed' => false
+                    'readed' => false,
                     'owner_report' => true
                 ]);
             }
@@ -79,7 +79,7 @@ class SendEmails
                     'user_id' => Auth::user()->id,
                     'email_sent_id' => $email_sent_user->id,
                     'notif_message' => 'Email report sent to '.$email_sent_user->email,
-                    'readed' => false
+                    'readed' => false,
                     'owner_report' => false
                 ]);
             }
