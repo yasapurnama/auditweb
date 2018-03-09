@@ -28,9 +28,13 @@
                                     <a href="{{ route('profile') }}">
                                         <i class="fa fa-user"></i> User Profile </a>
                                 </li>
+                                <li class="{{ Route::currentRouteName()=='notification' ? 'active' : '' }}">
+                                    <a href="{{ route('notification') }}">
+                                        <i class="fa fa-bell icon"></i> Notifications </a>
+                                </li>
                                 <li class="{{ Route::currentRouteName()=='setting' ? 'active' : '' }}">
                                     <a href="{{ route('setting') }}">
-                                        <i class="fa fa-wrench"></i> Settings </a>
+                                        <i class="fa fa-gear icon"></i> Settings </a>
                                 </li>
                                 {{-- <li>
                                     <a href="">

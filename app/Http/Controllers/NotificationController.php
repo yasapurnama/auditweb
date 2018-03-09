@@ -25,7 +25,8 @@ class NotificationController extends Controller
      */
     public function index()
     {
-        //
+        $notifications = Auth::user()->notification()->latest()->paginate(10);
+        return view('notification', compact('notifications'));
     }
 
     /**
@@ -68,8 +69,16 @@ class NotificationController extends Controller
      * @param  \App\Notification  $notification
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Notification $notification)
+    public function destroy(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'data_id' => 'required|numeric'
+        ]);
+
+        $data_id = request('data_id');
+        $result = Auth::user()->notification()->find($data_id);
+        $result->delete();
+
+        return redirect()->route('notification');
     }
 }

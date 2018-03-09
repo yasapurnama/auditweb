@@ -48,6 +48,7 @@ Route::post('/profile/edit', 'ProfileController@update')->name('editprofile');
 
 Route::get('/notification', 'NotificationController@index')->name('notification');
 Route::get('/notification/update', 'NotificationController@update')->name('notification.update');
+Route::post('/notification/delete', 'NotificationController@destroy')->name('notification.delete');
 
 Route::get('/setting', 'SettingController@index')->name('setting');
 Route::post('/setting', 'SettingController@update')->name('setting');
