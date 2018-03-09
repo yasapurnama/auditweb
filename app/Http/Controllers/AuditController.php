@@ -1097,8 +1097,9 @@ class AuditController extends Controller
         ]);
 
         $token_generated = (new DownloadController)->generate_token($audit_results);
+        $sendEmail = Auth::user()->setting->sendmail;
         $isSendOwner = (!empty($audit_data['whois_domain_email']) && $audit_data['saverity_high'] > 0) ? true : false;
-        if($token_generated){
+        if($token_generated && $sendEmail){
             event(new AuditResultCreated($audit_results, $isSendOwner));
         }
 
