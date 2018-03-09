@@ -40,13 +40,11 @@ class SendEmails
                 if($notifiction){
                     $email_sent_user = EmailSent::create([
                         'user_id' => Auth::user()->id,
-                        'audit_result_id' => $event->auditresults->id,
                         'email' => Auth::user()->email,
                         'owner' => Auth::user()->name
                     ]);
                     $notification = Notification::create([
                         'user_id' => Auth::user()->id,
-                        'email_sent_id' => $email_sent_user->id,
                         'notif_message' => 'Email report sent to '.$email_sent_user->email,
                         'readed' => false,
                         'owner_report' => false
@@ -58,13 +56,11 @@ class SendEmails
                 if($notifiction){
                     $email_sent_owner = EmailSent::create([
                         'user_id' => Auth::user()->id,
-                        'audit_result_id' => $event->auditresults->id,
                         'email' => $event->auditresults->whois_domain_email,
                         'owner' => $event->auditresults->whois_domain_owner
                     ]);
                     $notification = Notification::create([
                         'user_id' => Auth::user()->id,
-                        'email_sent_id' => $email_sent_owner->id,
                         'notif_message' => 'Email report sent to '.$email_sent_owner->email,
                         'readed' => false,
                         'owner_report' => true
@@ -77,13 +73,11 @@ class SendEmails
                 if($notifiction){
                     $email_sent_user = EmailSent::create([
                         'user_id' => Auth::user()->id,
-                        'audit_result_id' => $event->auditresults->id,
                         'email' => Auth::user()->email,
                         'owner' => Auth::user()->name
                     ]);
                     $notification = Notification::create([
                         'user_id' => Auth::user()->id,
-                        'email_sent_id' => $email_sent_user->id,
                         'notif_message' => 'Email report sent to '.$email_sent_user->email,
                         'readed' => false,
                         'owner_report' => false

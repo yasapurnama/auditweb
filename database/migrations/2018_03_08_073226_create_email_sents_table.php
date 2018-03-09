@@ -17,8 +17,6 @@ class CreateEmailSentsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->integer('audit_result_id')->unsigned();
-            $table->foreign('audit_result_id')->references('id')->on('audit_results')->onDelete('cascade');
             $table->string('email');
             $table->string('owner');
             $table->timestamps();

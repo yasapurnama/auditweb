@@ -12,7 +12,7 @@ class EmailSent extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'audit_result_id', 'email', 'owner'
+        'user_id', 'email', 'owner'
     ];
 
 
