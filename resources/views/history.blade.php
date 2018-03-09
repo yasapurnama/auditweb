@@ -11,7 +11,15 @@
                                         </div>
                                     </div>
                                     <div class="card-block" style="padding: 10px 30px 30px 30px">
-                                    
+                                    @if (session('status'))
+                                        <div class="alert alert-success">
+                                            {{ session('status') }}
+                                        </div>
+                                    @elseif(session('error'))
+                                        <div class="alert alert-danger">
+                                            {{ session('error') }}
+                                        </div>
+                                    @endif
                                     <div class="table-responsive">
                                         <table class="table table-striped table-bordered table-condensed tool-result-table">
                                         <thead>

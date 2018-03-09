@@ -82,9 +82,13 @@ class AuditController extends Controller
 
         $data_id = request('data_id');
         $result = Auth::user()->audit_result()->find($data_id);
-        $result->delete();
-
-        return redirect()->route('history');
+        if($result){
+            $result->delete();
+            return redirect()->route('history')->with('status', 'Audit result deleted!');
+        }
+        else{
+            return redirect()->route('history')->with('error', 'Delete audit result failed!');
+        }
     }
 
     /**

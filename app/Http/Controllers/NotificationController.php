@@ -77,8 +77,12 @@ class NotificationController extends Controller
 
         $data_id = request('data_id');
         $result = Auth::user()->notification()->find($data_id);
-        $result->delete();
-
-        return redirect()->route('notification');
+        if($result){
+            $result->delete();
+            return redirect()->route('notification')->with('status', 'Notification deleted!');
+        }
+        else{
+            return redirect()->route('notification')->with('error', 'Delete notification failed!');
+        }
     }
 }
