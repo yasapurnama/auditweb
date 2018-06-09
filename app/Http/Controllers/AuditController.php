@@ -202,6 +202,8 @@ class AuditController extends Controller
         $vuln_heartbleed = false;
         $ssl_expired = false;
         $ssl_response = false;
+        $audit_data['ssl_heartbleed'] = false;
+        $audit_data['ssl_expired'] = false;
         try {
             if($ssl_result->getStatus() == '200'){
                 $ssl_response = true;
@@ -384,8 +386,6 @@ class AuditController extends Controller
                 }
                 
             }
-            $audit_data['ssl_heartbleed'] = false;
-            $audit_data['ssl_expired'] = false;
             if($vuln_heartbleed){
                 $saverity_high += 1;
                 $audit_data['ssl_heartbleed'] = true;
@@ -621,6 +621,9 @@ class AuditController extends Controller
         $domain_owner = '';
         $has_registrant = false;
         $whois_response = false;
+        $audit_data['whois_registrant'] = false;
+        $audit_data['whois_domain_email'] = '';
+        $audit_data['whois_domain_owner'] = '';
         try {
             if($whois_result->getStatus() == '200'){
                 $whois_response = true;
@@ -657,9 +660,6 @@ class AuditController extends Controller
                 </div>
                 </div><br/>";
             }
-            $audit_data['whois_registrant'] = false;
-            $audit_data['whois_domain_email'] = '';
-            $audit_data['whois_domain_owner'] = '';
             if($has_registrant){
                 $saverity_medium += 1;
                 $audit_data['whois_registrant'] = $has_registrant;
@@ -685,6 +685,7 @@ class AuditController extends Controller
         $openresolver_info = "";
         $has_openresolver = false;
         $openresolver_response = false;
+        $audit_data['openresolver_vuln'] = false;
         try {
             if($openresolver_result->getStatus() == '200'){
                 $openresolver_response = true;
@@ -720,7 +721,6 @@ class AuditController extends Controller
                     $openresolver_info .= "More Info: <a target='_blank' href='https://www.us-cert.gov/ncas/alerts/TA13-088A'>https://www.us-cert.gov/ncas/alerts/TA13-088A</a><br/><br/>";
                 }
             }
-            $audit_data['openresolver_vuln'] = false;
             if($has_openresolver){
                 $saverity_high += 1;
                 $audit_data['openresolver_vuln'] = true;
@@ -844,6 +844,7 @@ class AuditController extends Controller
         $has_openrelay = false;
         $smtp_warning = false;
         $smtp_response = false;
+        $audit_data['smtp_openrelay'] = false;
         try {
             if($smtp_result->getStatus() == '200'){
                 $smtp_response = true;
@@ -883,7 +884,6 @@ class AuditController extends Controller
                 }
                 
             }
-            $audit_data['smtp_openrelay'] = false;
             if($smtp_record && $has_openrelay){
                 $saverity_high += 1;
                 $audit_data['smtp_openrelay'] = true;
@@ -911,6 +911,7 @@ class AuditController extends Controller
         $dmarc_info = "";
         $dmarc_record = false;
         $dmarc_response = false;
+        $audit_data['dmarc_needed'] = false;
         try {
             if($dmarc_result->getStatus() == '200'){
                 $dmarc_response = true;
@@ -963,7 +964,6 @@ class AuditController extends Controller
                 }
                 
             }
-            $audit_data['dmarc_needed'] = false;
             if($mx_record && (!$dmarc_record)){
                 $saverity_medium += 1;
                 $audit_data['dmarc_needed'] = true;
@@ -987,6 +987,7 @@ class AuditController extends Controller
         $spf_info = "<font size=\"3\"><b>SPF Record: Undefined</b></font></br>";
         $spf_record = false;
         $spf_response = false;
+        $audit_data['spf_needed'] = false;
         try {
             if($spf_result->getStatus() == '200'){
                 $spf_response = true;
@@ -1039,7 +1040,6 @@ class AuditController extends Controller
                 }
                 
             }
-            $audit_data['spf_needed'] = false;
             if($mx_record && (!$spf_record)){
                 $saverity_medium += 1;
                 $audit_data['spf_needed'] = true;
