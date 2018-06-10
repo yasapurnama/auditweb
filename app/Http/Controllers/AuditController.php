@@ -354,29 +354,33 @@ class AuditController extends Controller
 
                     if($heartbleed_result->getStatus() == '200'){
                         $result = new Crawler($heartbleed_result->getContent());
-                        $statusheartbleed = $result->filter('h2')->eq(0)->attr('class');
-                        switch ($statusheartbleed) {
-                            case 'ok':
-                                $statusheartbleed = '<img src="https://mxtoolbox.com/public/images/statusicons/ok.png" width="17">';
-                                break;
-                            case 'warning':
-                                $vuln_heartbleed = true;
-                                $statusheartbleed = '<img src="https://mxtoolbox.com/public/images/statusicons/warning.png" width="17">';
-                                break;
-                            case 'error':
-                                $vuln_heartbleed = true;
-                                $statusheartbleed = '<img src="https://mxtoolbox.com/public/images/statusicons/problem.png" width="17">';
-                                break;
-                            default:
-                                $statusheartbleed = '';
+                        try {
+                            $statusheartbleed = $result->filter('h2')->eq(0)->attr('class');
+                            switch ($statusheartbleed) {
+                                case 'ok':
+                                    $statusheartbleed = '<img src="https://mxtoolbox.com/public/images/statusicons/ok.png" width="17">';
+                                    break;
+                                case 'warning':
+                                    $vuln_heartbleed = true;
+                                    $statusheartbleed = '<img src="https://mxtoolbox.com/public/images/statusicons/warning.png" width="17">';
+                                    break;
+                                case 'error':
+                                    $vuln_heartbleed = true;
+                                    $statusheartbleed = '<img src="https://mxtoolbox.com/public/images/statusicons/problem.png" width="17">';
+                                    break;
+                                default:
+                                    $statusheartbleed = '';
+                            }
+                            $heartbleedname = $result->filter('h2')->eq(0)->text();
+                            $heartbleeddetail = !$result->filter('h2')->eq(0)->nextAll()->attr('class') ? $result->filter('h2')->eq(0)->nextAll()->html() : '';
+                            $ssl_info .= "<tr>
+                            <td>$statusheartbleed</td>
+                            <td>$heartbleedname</td>
+                            <td>$heartbleeddetail</td>
+                            </tr>";
                         }
-                        $heartbleedname = $result->filter('h2')->eq(0)->text();
-                        $heartbleeddetail = !$result->filter('h2')->eq(0)->nextAll()->attr('class') ? $result->filter('h2')->eq(0)->nextAll()->html() : '';
-                        $ssl_info .= "<tr>
-                        <td>$statusheartbleed</td>
-                        <td>$heartbleedname</td>
-                        <td>$heartbleeddetail</td>
-                        </tr>";
+                        catch(Exception $e){
+                        }
                     }
 
                     $ssl_info .= "</tbody>
@@ -414,7 +418,7 @@ class AuditController extends Controller
         $audit_data['ssl_info'] = $ssl_info;
 
 
-        //Parsing data port
+        //Parsing data port --removed
         $port_info = "<font size=\"3\"><b>Open Ports and Services: Undefined</b></font></br>";
         try {
             if($port_result->getStatus() == '200'){
@@ -631,8 +635,12 @@ class AuditController extends Controller
                 $decode = json_decode($decode["d"], true);
                 $crawler = new Crawler($decode["HTML_Value"]);
                 $data = $crawler->filter('.tool-result-body > table')->eq(0)->filter('tbody > tr')->each(function ($node, $i) {
-                    if($node->filter('td')->text()=='Registrant Email'){
-                        return $node->parents()->filter('tr')->eq($i)->filter('td')->eq(1)->text();
+                    try {
+                        if($node->filter('td')->text()=='Registrant Email'){
+                            return $node->parents()->filter('tr')->eq($i)->filter('td')->eq(1)->text();
+                        }
+                    }
+                    catch(Exception $e){
                     }
                 });
                 
@@ -641,8 +649,12 @@ class AuditController extends Controller
                     $has_registrant = true;
                 }
                 $data = $crawler->filter('.tool-result-body > table')->eq(0)->filter('tbody > tr')->each(function ($node, $i) {
-                    if($node->filter('td')->text()=='Registrant Name'){
-                        return $node->parents()->filter('tr')->eq($i)->filter('td')->eq(1)->text();
+                    try {
+                        if($node->filter('td')->text()=='Registrant Name'){
+                            return $node->parents()->filter('tr')->eq($i)->filter('td')->eq(1)->text();
+                        }
+                    }
+                    catch(Exception $e){
                     }
                 });
                 if(isset($data[1])){
