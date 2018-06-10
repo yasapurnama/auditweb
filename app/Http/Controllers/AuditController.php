@@ -143,7 +143,7 @@ class AuditController extends Controller
             'asn' => $client->getAsync('https://www.ultratools.com/tools/asnInfoResult?domainName='.$hostip, ['headers' => $header_asn]),
             'ssl' => $client->postAsync('https://www.digicert.com/api/check-host.php', ['headers' => $header_digicert, 'body' => "r=".rand(0, 1000)."&host=$domain&order_id="]),
             'heartbleed' => $client->postAsync('https://www.digicert.com/api/check-vuln.php', ['headers' => $header_digicert, 'body' => "r=".rand(0, 1000)."&host=$domain&order_id="]),
-            'port' => $client->postAsync('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"scan:$domain\",\"resultIndex\":1}"]),
+            //'port' => $client->postAsync('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"scan:$domain\",\"resultIndex\":1}"]),
             'dns' => $client->postAsync('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"dns:$domain\",\"resultIndex\":1}"]),
             'cname' => $client->postAsync('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"cname:$domain\",\"resultIndex\":1}"]),
             'txt' => $client->postAsync('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"txt:$domain\",\"resultIndex\":1}"]),
@@ -161,7 +161,7 @@ class AuditController extends Controller
         $asn_result = new Response((string) $results['asn']['value']->getBody(), $results['asn']['value']->getStatusCode(), $results['asn']['value']->getHeaders());
         $ssl_result = new Response((string) $results['ssl']['value']->getBody(), $results['ssl']['value']->getStatusCode(), $results['ssl']['value']->getHeaders());
         $heartbleed_result = new Response((string) $results['heartbleed']['value']->getBody(), $results['heartbleed']['value']->getStatusCode(), $results['heartbleed']['value']->getHeaders());
-        $port_result = new Response((string) $results['port']['value']->getBody(), $results['port']['value']->getStatusCode(), $results['port']['value']->getHeaders());
+        //$port_result = new Response((string) $results['port']['value']->getBody(), $results['port']['value']->getStatusCode(), $results['port']['value']->getHeaders());
         $dns_result = new Response((string) $results['dns']['value']->getBody(), $results['dns']['value']->getStatusCode(), $results['dns']['value']->getHeaders());
         $cname_result = new Response((string) $results['cname']['value']->getBody(), $results['cname']['value']->getStatusCode(), $results['cname']['value']->getHeaders());
         $txt_result = new Response((string) $results['txt']['value']->getBody(), $results['txt']['value']->getStatusCode(), $results['txt']['value']->getHeaders());
@@ -174,7 +174,7 @@ class AuditController extends Controller
 
         
         //Parsing data asn
-        $asn_info = "<font size=\"3\"><b>ASN Information: Undefined</b></font></br>";
+        $asn_info = "<font size=\"3\"><b>ASN Information: No Results Found</b></font></br>";
         try {
             if($asn_result->getStatus() == '200'){
                 $result = new Crawler($asn_result->getContent());
@@ -191,7 +191,7 @@ class AuditController extends Controller
             }
         } catch (Exception $e) {
             report($e);
-            $asn_info = "<font size=\"3\"><b>ASN Information: Undefined</b></font></br>";
+            $asn_info = "<font size=\"3\"><b>ASN Information: No Results Found</b></font></br>";
         }
         $audit_data['asn_info'] = $asn_info;
         
@@ -298,22 +298,29 @@ class AuditController extends Controller
                     $expiredname = $result->filter('h2')->eq(3)->text();
                     $expireddetail = !$result->filter('h2')->eq(3)->nextAll()->attr('class') ? $result->filter('h2')->eq(3)->nextAll()->html() : '';
 
-                    $statustrust = $result->filter('h2')->eq(5)->attr('class');
-                    switch ($statustrust) {
-                        case 'ok':
-                            $statustrust = '<img src="https://mxtoolbox.com/public/images/statusicons/ok.png" width="17">';
-                            break;
-                        case 'warning':
-                            $statustrust = '<img src="https://mxtoolbox.com/public/images/statusicons/warning.png" width="17">';
-                            break;
-                        case 'error':
-                            $statustrust = '<img src="https://mxtoolbox.com/public/images/statusicons/problem.png" width="17">';
-                            break;
-                        default:
-                            $statustrust = '';
+                    $statustrust = '';
+                    $trustname = '';
+                    $trustdetail = '';
+                    try {
+                        $statustrust = $result->filter('h2')->eq(5)->attr('class');
+                        switch ($statustrust) {
+                            case 'ok':
+                                $statustrust = '<img src="https://mxtoolbox.com/public/images/statusicons/ok.png" width="17">';
+                                break;
+                            case 'warning':
+                                $statustrust = '<img src="https://mxtoolbox.com/public/images/statusicons/warning.png" width="17">';
+                                break;
+                            case 'error':
+                                $statustrust = '<img src="https://mxtoolbox.com/public/images/statusicons/problem.png" width="17">';
+                                break;
+                            default:
+                                $statustrust = '';
+                        }
+                        $trustname = $result->filter('h2')->last()->html();
+                        $trustdetail = $result->filter('p')->last()->html();
                     }
-                    $trustname = $result->filter('h2')->last()->html();
-                    $trustdetail = $result->filter('p')->last()->html();
+                    catch(Exception $e){
+                    }
 
                     $ssl_info = "<div class=\"tool-result-body\">
                     <div class=\"table-responsive\">
@@ -409,17 +416,18 @@ class AuditController extends Controller
                 $ssl_info = "<font size=\"3\"><b>SSL Certificate - </b></font><font size=\"3\" color=\"#FFE04F\"><b>Medium</b></font></br>".$ssl_info;
             }
             else{
-                $ssl_info = "<font size=\"3\"><b>SSL Certificate: Undefined</b></font></br>";
+                $ssl_info = "<font size=\"3\"><b>SSL Certificate: No Results Found</b></font></br>";
             }
         } catch (Exception $e) {
             report($e);
-            $ssl_info = "<font size=\"3\"><b>SSL Certificate: Undefined</b></font></br>";
+            $ssl_info = "<font size=\"3\"><b>SSL Certificate: No Results Found</b></font></br>";
         }
         $audit_data['ssl_info'] = $ssl_info;
 
 
-        //Parsing data port --removed
-        $port_info = "<font size=\"3\"><b>Open Ports and Services: Undefined</b></font></br>";
+        //Parsing data port --removed 
+        /*
+        $port_info = "<font size=\"3\"><b>Open Ports and Services: No Results Found</b></font></br>";
         try {
             if($port_result->getStatus() == '200'){
                 $saverity_info += 1;
@@ -436,10 +444,10 @@ class AuditController extends Controller
             }
         } catch (Exception $e) {
             report($e);
-            $port_info = "<font size=\"3\"><b>Open Ports and Services: Undefined</b></font></br>";
+            $port_info = "<font size=\"3\"><b>Open Ports and Services: No Results Found</b></font></br>";
         }
         $audit_data['port_info'] = $port_info;
-
+        */
 
         //Parsing data dns
         $dns_info = "";
@@ -479,11 +487,11 @@ class AuditController extends Controller
                 $dns_info = "<font size=\"3\"><b>DNS Server - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Information</b></font></br>".$dns_info;
             }
             else{
-                $dns_info = "<font size=\"3\"><b>DNS Server: Undefined</b></font></br>";
+                $dns_info = "<font size=\"3\"><b>DNS Server: No Results Found</b></font></br>";
             }
         } catch (Exception $e) {
             report($e);
-            $dns_info = "<font size=\"3\"><b>DNS Server: Undefined</b></font></br>";
+            $dns_info = "<font size=\"3\"><b>DNS Server: No Results Found</b></font></br>";
         }
         $audit_data['dns_info'] = $dns_info;
 
@@ -542,11 +550,11 @@ class AuditController extends Controller
                 $cname_info = "<font size=\"3\"><b>CNAME Record - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Information</b></font></br>".$cname_info;
             }
             else{
-                $cname_info = "<font size=\"3\"><b>CNAME Record: Undefined</b></font></br>";
+                $cname_info = "<font size=\"3\"><b>CNAME Record: No Results Found</b></font></br>";
             }
         } catch (Exception $e) {
             report($e);
-            $cname_info = "<font size=\"3\"><b>CNAME Record: Undefined</b></font></br>";
+            $cname_info = "<font size=\"3\"><b>CNAME Record: No Results Found</b></font></br>";
         }
         $audit_data['cname_info'] = $cname_info;
 
@@ -610,11 +618,11 @@ class AuditController extends Controller
                 $txt_info = "<font size=\"3\"><b>TXT Record - </b></font><font size=\"3\" color=\"#5ECA62\"><b>Low</b></font></br>".$txt_info;
             }
             else{
-                $txt_info = "<font size=\"3\"><b>TXT Record: Undefined</b></font></br>";
+                $txt_info = "<font size=\"3\"><b>TXT Record: No Results Found</b></font></br>";
             }
         } catch (Exception $e) {
             report($e);
-            $txt_info = "<font size=\"3\"><b>TXT Record: Undefined</b></font></br>";
+            $txt_info = "<font size=\"3\"><b>TXT Record: No Results Found</b></font></br>";
         }
         $audit_data['txt_info'] = $txt_info;
         
@@ -684,11 +692,11 @@ class AuditController extends Controller
                 $whois_info = "<font size=\"3\"><b>WHOIS Record - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Information</b></font></br>".$whois_info;
             }
             else{
-                $whois_info = "<font size=\"3\"><b>WHOIS Record: Undefined</b></font></br>";
+                $whois_info = "<font size=\"3\"><b>WHOIS Record: No Results Found</b></font></br>";
             }
         } catch (Exception $e) {
             report($e);
-            $whois_info = "<font size=\"3\"><b>WHOIS Record: Undefined</b></font></br>";
+            $whois_info = "<font size=\"3\"><b>WHOIS Record: No Results Found</b></font></br>";
         }
         $audit_data['whois_info'] = $whois_info;
         
@@ -743,11 +751,11 @@ class AuditController extends Controller
                 $openresolver_info = "<font size=\"3\"><b>Open DNS Resolver - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Information</b></font></br>".$openresolver_info;
             }
             else{
-                $openresolver_info = "<font size=\"3\"><b>Open DNS Resolver: Undefined</b></font></br>";
+                $openresolver_info = "<font size=\"3\"><b>Open DNS Resolver: No Results Found</b></font></br>";
             }
         } catch (Exception $e) {
             report($e);
-            $openresolver_info = "<font size=\"3\"><b>Open DNS Resolver: Undefined</b></font></br>";
+            $openresolver_info = "<font size=\"3\"><b>Open DNS Resolver: No Results Found</b></font></br>";
         }
         $audit_data['openresolver_info'] = $openresolver_info;
 
@@ -841,11 +849,11 @@ class AuditController extends Controller
                 $mx_info = "<font size=\"3\"><b>MX Record - </b></font><font size=\"3\" color=\"#5ECA62\"><b>Low</b></font></br>".$mx_info;
             }
             else{
-                $mx_info = "<font size=\"3\"><b>MX Record: Undefined</b></font></br>";
+                $mx_info = "<font size=\"3\"><b>MX Record: No Results Found</b></font></br>";
             }
         } catch (Exception $e) {
             report($e);
-            $mx_info = "<font size=\"3\"><b>MX Record: Undefined</b></font></br>";
+            $mx_info = "<font size=\"3\"><b>MX Record: No Results Found</b></font></br>";
         }
         $audit_data['mx_info'] = $mx_info;
 
@@ -910,11 +918,11 @@ class AuditController extends Controller
                 $smtp_info = "<font size=\"3\"><b>SMTP Server Test - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Information</b></font></br>".$smtp_info;
             }
             else{
-                $smtp_info = "<font size=\"3\"><b>SMTP Server Test: Undefined</b></font></br>";
+                $smtp_info = "<font size=\"3\"><b>SMTP Server Test: No Results Found</b></font></br>";
             }
         } catch (Exception $e) {
             report($e);
-            $smtp_info = "<font size=\"3\"><b>SMTP Server Test: Undefined</b></font></br>";
+            $smtp_info = "<font size=\"3\"><b>SMTP Server Test: No Results Found</b></font></br>";
         }
         $audit_data['smtp_info'] = $smtp_info;
 
@@ -986,17 +994,17 @@ class AuditController extends Controller
                 $dmarc_info = "<font size=\"3\"><b>DMARC Record - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Information</b></font></br>".$dmarc_info;
             }
             else{
-                $dmarc_info = "<font size=\"3\"><b>DMARC Record: Undefined</b></font></br>";
+                $dmarc_info = "<font size=\"3\"><b>DMARC Record: No Results Found</b></font></br>";
             }
         } catch (Exception $e) {
             report($e);
-            $dmarc_info = "<font size=\"3\"><b>DMARC Record: Undefined</b></font></br>";
+            $dmarc_info = "<font size=\"3\"><b>DMARC Record: No Results Found</b></font></br>";
         }
         $audit_data['dmarc_info'] = $dmarc_info;
 
 
         //Parsing data spf
-        $spf_info = "<font size=\"3\"><b>SPF Record: Undefined</b></font></br>";
+        $spf_info = "<font size=\"3\"><b>SPF Record: No Results Found</b></font></br>";
         $spf_record = false;
         $spf_response = false;
         $audit_data['spf_needed'] = false;
@@ -1062,11 +1070,11 @@ class AuditController extends Controller
                 $spf_info = "<font size=\"3\"><b>SPF Record - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Information</b></font></br>".$spf_info;
             }
             else{
-                $spf_info = "<font size=\"3\"><b>SPF Record: Undefined</b></font></br>";
+                $spf_info = "<font size=\"3\"><b>SPF Record: No Results Found</b></font></br>";
             }
         } catch (Exception $e) {
             report($e);
-            $spf_info = "<font size=\"3\"><b>SPF Record: Undefined</b></font></br>";
+            $spf_info = "<font size=\"3\"><b>SPF Record: No Results Found</b></font></br>";
         }
         $audit_data['spf_info'] = $spf_info;
 
@@ -1088,7 +1096,7 @@ class AuditController extends Controller
             'ssl_info' => $audit_data['ssl_info'],
             'ssl_expired' => $audit_data['ssl_expired'],
             'ssl_heartbleed' => $audit_data['ssl_heartbleed'],
-            'port_info' => $audit_data['port_info'],
+            //'port_info' => $audit_data['port_info'],
             'dns_info' => $audit_data['dns_info'],
             'cname_info' => $audit_data['cname_info'],
             'txt_info' => $audit_data['txt_info'],
