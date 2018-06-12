@@ -7,7 +7,6 @@ Website: {{ isset($audit_results['web_domain']) ? $audit_results['web_domain'] :
 Host IP: {{ isset($audit_results['host_ip']) ? $audit_results['host_ip'] : '' }}<br/><br/>
 {!! isset($audit_results['asn_info']) ? $audit_results['asn_info'] : '' !!}<br/>
 {!! isset($audit_results['ssl_info']) ? $audit_results['ssl_info'] : '' !!}<br/>
-{!! isset($audit_results['port_info']) ? $audit_results['port_info'] : '' !!}<br/>
 {!! isset($audit_results['dns_info']) ? $audit_results['dns_info'] : '' !!}<br/>
 {!! isset($audit_results['cname_info']) ? $audit_results['cname_info'] : '' !!}<br/>
 {!! isset($audit_results['txt_info']) ? $audit_results['txt_info'] : '' !!}<br/>
@@ -16,7 +15,29 @@ Host IP: {{ isset($audit_results['host_ip']) ? $audit_results['host_ip'] : '' }}
 {!! isset($audit_results['mx_info']) ? $audit_results['mx_info'] : '' !!}<br/>
 {!! isset($audit_results['smtp_info']) ? $audit_results['smtp_info'] : '' !!}<br/>
 {!! isset($audit_results['dmarc_info']) ? $audit_results['dmarc_info'] : '' !!}<br/>
-{!! isset($audit_results['spf_info']) ? $audit_results['spf_info'] : '' !!}<br/><br/><br/>
+{!! isset($audit_results['spf_info']) ? $audit_results['spf_info'] : '' !!}<br/>
+<b>Risk Calculation:</b><br/>
+
+<table>
+    <tr>
+        <td>
+            <ul>
+                <li>Informational</li>
+                <li>Low</li>
+                <li>Medium</li>
+                <li>High</li>
+            </ul>
+        </td>
+        <td>
+            : sdnsjd<br />
+            : sndjsn<br />
+            : sndjsn<br />
+            : sndjsn<br />
+        </td>
+    </tr>
+</table> 
+<br/>
+<br/>
 <hr>
 <p style="text-align: center;">{{ Request::root() }}</p>
 </div>

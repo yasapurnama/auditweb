@@ -23,7 +23,6 @@ class CreateAuditResultsTable extends Migration
             $table->text('ssl_info');
             $table->boolean('ssl_expired')->default(false);
             $table->boolean('ssl_heartbleed')->default(false);
-            $table->text('port_info');
             $table->text('dns_info');
             $table->text('cname_info');
             $table->text('txt_info');

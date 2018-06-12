@@ -20,7 +20,7 @@
       </td>
       <td rowspan="2" style="padding-bottom: 20px">
          <div class="flot-chart">
-            <font size="3"><b>Severity Chart</b></font>
+            <font size="3"><b>Risk Chart</b></font>
             <div class="flot-chart-pie-content" id="flot-pie-chart"></div>
          </div>
       </td>
@@ -33,7 +33,6 @@
 </table>
 
 {!! isset($audit_results['ssl_info']) ? $audit_results['ssl_info'] : '' !!}<br/>
-{!! isset($audit_results['port_info']) ? $audit_results['port_info'] : '' !!}<br/>
 {!! isset($audit_results['dns_info']) ? $audit_results['dns_info'] : '' !!}<br/>
 {!! isset($audit_results['cname_info']) ? $audit_results['cname_info'] : '' !!}<br/>
 {!! isset($audit_results['txt_info']) ? $audit_results['txt_info'] : '' !!}<br/>
@@ -68,7 +67,7 @@ $(function() {
         console.log("drawing flot chart");
         //Flot Pie Chart
         var data = [{
-            label: "Information",
+            label: "Informational",
             data: {{ isset($audit_results['saverity_info']) ? $audit_results['saverity_info'] : 0 }},
             color: tinycolor('rgb(59, 138, 213)'),
         }, {

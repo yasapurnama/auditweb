@@ -401,19 +401,38 @@ class AuditController extends Controller
                 $saverity_high += 1;
                 $audit_data['ssl_heartbleed'] = true;
                 $ssl_info = "<font size=\"3\"><b>SSL Certificate - </b></font><font size=\"3\" color=\"#F45C51\"><b>High</b></font></br>".$ssl_info;
+                $ssl_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #F45C51\">
+                    <b>Risk Level:</b> High<br/>
+                    Information: SSL certificates that are vulnerable to heartbleed attacks allow attackers to get information such as user login credentials, sessions, private key, etc from memory leak.<br/>
+                    Retrieved from: <a href=\"https://www.digicert.com/help/\" target=\"_blank\">https://www.digicert.com/help/</a><br/>
+                </div><br/>";
             }
             else if($ssl_expired){
                 $saverity_medium += 1;
                 $audit_data['ssl_expired'] = true;
                 $ssl_info = "<font size=\"3\"><b>SSL Certificate - </b></font><font size=\"3\" color=\"#FFE04F\"><b>Medium</b></font></br>".$ssl_info;
+                $ssl_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #FFE04F\">
+                    <b>Risk Level:</b> Medium<br/>
+                    Information: An expired SSL certificate on a website will display an untrusted certificate warning in the browser. This can eliminate user trust when accessing the website.<br/>
+                    Retrieved from: <a href=\"https://www.digicert.com/help/\" target=\"_blank\">https://www.digicert.com/help/</a><br/>
+                </div><br/>";
             }
             else if($has_ssl){
                 $saverity_info += 1;
-                $ssl_info = "<font size=\"3\"><b>SSL Certificate - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Information</b></font></br>".$ssl_info;
+                $ssl_info = "<font size=\"3\"><b>SSL Certificate - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Informational</b></font></br>".$ssl_info;
+                $ssl_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #3B8AD5\">
+                    <b>Risk Level:</b> Informational<br/>
+                    Retrieved from: <a href=\"https://www.digicert.com/help/\" target=\"_blank\">https://www.digicert.com/help/</a><br/>
+                </div><br/>";
             }
             else if($ssl_response){
                 $saverity_medium += 1;
                 $ssl_info = "<font size=\"3\"><b>SSL Certificate - </b></font><font size=\"3\" color=\"#FFE04F\"><b>Medium</b></font></br>".$ssl_info;
+                $ssl_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #FFE04F\">
+                    <b>Risk Level:</b> Medium<br/>
+                    Information: Websites that do not use SSL Certificates are easily attacked by sniffing. Information such as credential usernames and passwords and user sessions are obtained easily.<br/>
+                    Retrieved from: <a href=\"https://www.digicert.com/help/\" target=\"_blank\">https://www.digicert.com/help/</a><br/>
+                </div><br/>";
             }
             else{
                 $ssl_info = "<font size=\"3\"><b>SSL Certificate: No Results Found</b></font></br>";
@@ -477,14 +496,28 @@ class AuditController extends Controller
             if($has_problem && $has_ok){
                 $saverity_low += 1;
                 $dns_info = "<font size=\"3\"><b>DNS Server - </b></font><font size=\"3\" color=\"#5ECA62\"><b>Low</b></font></br>".$dns_info;
+                $dns_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #5ECA62\">
+                    <b>Risk Level:</b> Low<br/>
+                    Information: One of the problematic DNS found. The website address is still accessible but the DNS server is not in its optimal state.<br/>
+                    Retrieved from: <a href=\"https://mxtoolbox.com/DNSCheck.aspx\" target=\"_blank\">https://mxtoolbox.com/DNSCheck.aspx</a><br/>
+                </div><br/>";
             }
             else if($has_problem){
-                $saverity_high += 1;
-                $dns_info = "<font size=\"3\"><b>DNS Server - </b></font><font size=\"3\" color=\"#F45C51\"><b>High</b></font></br>".$dns_info;
+                $saverity_medium += 1;
+                $dns_info = "<font size=\"3\"><b>DNS Server - </b></font><font size=\"3\" color=\"#FFE04F\"><b>Medium</b></font></br>".$dns_info;
+                $dns_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #FFE04F\">
+                    <b>Risk Level:</b> Medium<br/>
+                    Information: The problematic DNS status will be on the website. This may cause the domain address of the domain not accessible.<br/>
+                    Retrieved from: <a href=\"https://mxtoolbox.com/DNSCheck.aspx\" target=\"_blank\">https://mxtoolbox.com/DNSCheck.aspx</a><br/>
+                </div><br/>";
             }
             else if($dns_response){
                 $saverity_info += 1;
-                $dns_info = "<font size=\"3\"><b>DNS Server - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Information</b></font></br>".$dns_info;
+                $dns_info = "<font size=\"3\"><b>DNS Server - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Informational</b></font></br>".$dns_info;
+                $dns_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #3B8AD5\">
+                    <b>Risk Level:</b> Informational<br/>
+                    Retrieved from: <a href=\"https://mxtoolbox.com/DNSCheck.aspx\" target=\"_blank\">https://mxtoolbox.com/DNSCheck.aspx</a><br/>
+                </div><br/>";
             }
             else{
                 $dns_info = "<font size=\"3\"><b>DNS Server: No Results Found</b></font></br>";
@@ -547,7 +580,11 @@ class AuditController extends Controller
             }
             if($cname_record || $cname_response){
                 $saverity_info += 1;
-                $cname_info = "<font size=\"3\"><b>CNAME Record - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Information</b></font></br>".$cname_info;
+                $cname_info = "<font size=\"3\"><b>CNAME Record - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Informational</b></font></br>".$cname_info;
+                $cname_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #3B8AD5\">
+                    <b>Risk Level:</b> Informational<br/>
+                    Retrieved from: <a href=\"https://mxtoolbox.com/CnameLookup.aspx\" target=\"_blank\">https://mxtoolbox.com/CnameLookup.aspx</a><br/>
+                </div><br/>";
             }
             else{
                 $cname_info = "<font size=\"3\"><b>CNAME Record: No Results Found</b></font></br>";
@@ -609,13 +646,13 @@ class AuditController extends Controller
                 }
                 
             }
-            if($txt_record){
+            if($txt_response || $txt_record){
                 $saverity_info += 1;
-                $txt_info = "<font size=\"3\"><b>TXT Record - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Information</b></font></br>".$txt_info;
-            }
-            else if($txt_response){
-                $saverity_low += 1;
-                $txt_info = "<font size=\"3\"><b>TXT Record - </b></font><font size=\"3\" color=\"#5ECA62\"><b>Low</b></font></br>".$txt_info;
+                $txt_info = "<font size=\"3\"><b>TXT Record - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Informational</b></font></br>".$txt_info;
+                $txt_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #3B8AD5\">
+                    <b>Risk Level:</b> Informational<br/>
+                    Retrieved from: <a href=\"https://mxtoolbox.com/TXTLookup.aspx\" target=\"_blank\">https://mxtoolbox.com/TXTLookup.aspx</a><br/>
+                </div><br/>";
             }
             else{
                 $txt_info = "<font size=\"3\"><b>TXT Record: No Results Found</b></font></br>";
@@ -633,6 +670,7 @@ class AuditController extends Controller
         $domain_owner = '';
         $has_registrant = false;
         $whois_response = false;
+        $domain_expired = false;
         $audit_data['whois_registrant'] = false;
         $audit_data['whois_domain_email'] = '';
         $audit_data['whois_domain_owner'] = '';
@@ -668,28 +706,63 @@ class AuditController extends Controller
                 if(isset($data[1])){
                     $domain_owner = $data[1];
                 }
+                $data = $crawler->filter('.tool-result-body > table')->eq(0)->filter('tbody > tr')->each(function ($node, $i) {
+                    try {
+                        if($node->filter('td')->text()=='Expiration Date'){
+                            return $node->parents()->filter('tr')->eq($i)->filter('td')->eq(1)->text();
+                        }
+                    }
+                    catch(Exception $e){
+                    }
+                });
+                if(isset($data[0])){
+                    $expiry_time = strtotime($data[0]);
+                    $now_time = time();
+                    if($expiry_time && $now_time > $expiry_time){
+                        $domain_expired = true;
+                    }
+                }
                 $crawler->filter('.tool-result-body .tool-result-body div')->each(function (Crawler $crawler) {
                     foreach ($crawler as $node) {
                         $node->parentNode->removeChild($node);
                     }
                 });
                 $whois_table = $crawler->filter('.tool-result-body .tool-result-body')->html();
+                $whois_table = str_replace('<tr class="full-width"></tr>', '', $whois_table);
                 $whois_info = "<div class=\"tool-result-body\">
                 <div class=\"table-responsive\">
                 $whois_table
                 </div>
                 </div><br/>";
             }
-            if($has_registrant){
+            if($domain_expired){
+                $saverity_medium += 1;
+                $whois_info = "<font size=\"3\"><b>WHOIS Record - </b></font><font size=\"3\" color=\"#FFE04F\"><b>Medium</b></font></br>".$whois_info;
+                $whois_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #FFE04F\">
+                    <b>Risk Level:</b> Medium<br/>
+                    Information: Expired domain addresses may be re-ordered by others. This causes all traffic from the domain to be directed to the website of the new domain owner.<br/>
+                    Retrieved from: <a href=\"https://mxtoolbox.com/Whois.aspx\" target=\"_blank\">https://mxtoolbox.com/Whois.aspx</a><br/>
+                </div><br/>";
+            }
+            else if($has_registrant){
                 $saverity_medium += 1;
                 $audit_data['whois_registrant'] = $has_registrant;
                 $audit_data['whois_domain_email'] = $domain_email;
                 $audit_data['whois_domain_owner'] = $domain_owner;
                 $whois_info = "<font size=\"3\"><b>WHOIS Record - </b></font><font size=\"3\" color=\"#FFE04F\"><b>Medium</b></font></br>".$whois_info;
+                $whois_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #FFE04F\">
+                    <b>Risk Level:</b> Medium<br/>
+                    Information: Registrant domain information or domain owners may be misused by an attacker such as spam to email the domain owner even with Social Enginering techniques the attacker can pretend to be the domain owner and ask the domain registrar to change the domain server's name.<br/>
+                    Retrieved from: <a href=\"https://mxtoolbox.com/Whois.aspx\" target=\"_blank\">https://mxtoolbox.com/Whois.aspx</a><br/>
+                </div><br/>";
             }
             else if($whois_response){
                 $saverity_info += 1;
-                $whois_info = "<font size=\"3\"><b>WHOIS Record - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Information</b></font></br>".$whois_info;
+                $whois_info = "<font size=\"3\"><b>WHOIS Record - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Informational</b></font></br>".$whois_info;
+                $whois_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #3B8AD5\">
+                    <b>Risk Level:</b> Informational<br/>
+                    Retrieved from: <a href=\"https://mxtoolbox.com/Whois.aspx\" target=\"_blank\">https://mxtoolbox.com/Whois.aspx</a><br/>
+                </div><br/>";
             }
             else{
                 $whois_info = "<font size=\"3\"><b>WHOIS Record: No Results Found</b></font></br>";
@@ -745,10 +818,19 @@ class AuditController extends Controller
                 $saverity_high += 1;
                 $audit_data['openresolver_vuln'] = true;
                 $openresolver_info = "<font size=\"3\"><b>Open DNS Resolver - </b></font><font size=\"3\" color=\"#F45C51\"><b>High</b></font></br>".$openresolver_info;
+                $openresolver_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #F45C51\">
+                    <b>Risk Level:</b> High<br/>
+                    Information: Open DNS Resolver detected on the website indicates the website is vulnerable to DDoS attacks or DNS Aplifikaction Attack.<br/>
+                    Retrieved from: <a href=\"http://openresolver.com/\" target=\"_blank\">http://openresolver.com/</a><br/>
+                </div><br/>";
             }
             else if($openresolver_response){
                 $saverity_info += 1;
-                $openresolver_info = "<font size=\"3\"><b>Open DNS Resolver - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Information</b></font></br>".$openresolver_info;
+                $openresolver_info = "<font size=\"3\"><b>Open DNS Resolver - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Informational</b></font></br>".$openresolver_info;
+                $openresolver_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #3B8AD5\">
+                    <b>Risk Level:</b> Informational<br/>
+                    Retrieved from: <a href=\"http://openresolver.com/\" target=\"_blank\">http://openresolver.com/</a><br/>
+                </div><br/>";
             }
             else{
                 $openresolver_info = "<font size=\"3\"><b>Open DNS Resolver: No Results Found</b></font></br>";
@@ -840,13 +922,13 @@ class AuditController extends Controller
                 }
                 
             }
-            if($mx_record){
+            if($mx_response || $mx_record){
                 $saverity_info += 1;
-                $mx_info = "<font size=\"3\"><b>MX Record - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Information</b></font></br>".$mx_info;
-            }
-            else if($mx_response){
-                $saverity_low += 1;
-                $mx_info = "<font size=\"3\"><b>MX Record - </b></font><font size=\"3\" color=\"#5ECA62\"><b>Low</b></font></br>".$mx_info;
+                $mx_info = "<font size=\"3\"><b>MX Record - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Informational</b></font></br>".$mx_info;
+                $mx_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #3B8AD5\">
+                    <b>Risk Level:</b> Informational<br/>
+                    Retrieved from: <a href=\"https://mxtoolbox.com/\" target=\"_blank\">https://mxtoolbox.com/</a><br/>
+                </div><br/>";
             }
             else{
                 $mx_info = "<font size=\"3\"><b>MX Record: No Results Found</b></font></br>";
@@ -893,7 +975,7 @@ class AuditController extends Controller
                 $smtp_table = str_replace('<td colspan="4">', '<td colspan="3">', $smtp_table);
                 $smtp_record = !str_contains($smtp_table, 'Failed To Connect');
                 $has_openrelay = !str_contains($smtp_table, 'Not an open relay');
-                $smtp_warning = str_contains($smtp_table, 'warning.png');
+                $smtp_warning = str_contains($smtp_table, 'Not good! on Transaction Time');
                 $smtp_info = "<div class=\"tool-result-body\">
                 <div class=\"table-responsive\">
                 $smtp_table
@@ -908,14 +990,28 @@ class AuditController extends Controller
                 $saverity_high += 1;
                 $audit_data['smtp_openrelay'] = true;
                 $smtp_info = "<font size=\"3\"><b>SMTP Server Test - </b></font><font size=\"3\" color=\"#F45C51\"><b>High</b></font></br>".$smtp_info;
+                $smtp_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #F45C51\">
+                    <b>Risk Level:</b> High<br/>
+                    Information: SMTP Open Relay indicates SMTP server can be used by anyone without needing credential login. It can be misused by an attacker to do email spoofing or spam email.<br/>
+                    Retrieved from: <a href=\"https://mxtoolbox.com/diagnostic.aspx\" target=\"_blank\">https://mxtoolbox.com/diagnostic.aspx</a><br/>
+                </div><br/>";
             }
             else if($smtp_warning){
                 $saverity_low += 1;
                 $smtp_info = "<font size=\"3\"><b>SMTP Server Test - </b></font><font size=\"3\" color=\"#5ECA62\"><b>Low</b></font></br>".$smtp_info;
+                $smtp_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #5ECA62\">
+                    <b>Risk Level:</b> Low<br/>
+                    Information: The slow SMTP Response Time indicates SMTP Server is not working optimally but in operation it is still working fine.<br/>
+                    Retrieved from: <a href=\"https://mxtoolbox.com/diagnostic.aspx\" target=\"_blank\">https://mxtoolbox.com/diagnostic.aspx</a><br/>
+                </div><br/>";
             }
             else if($smtp_response){
                 $saverity_info += 1;
-                $smtp_info = "<font size=\"3\"><b>SMTP Server Test - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Information</b></font></br>".$smtp_info;
+                $smtp_info = "<font size=\"3\"><b>SMTP Server Test - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Informational</b></font></br>".$smtp_info;
+                $smtp_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #3B8AD5\">
+                    <b>Risk Level:</b> Informational<br/>
+                    Retrieved from: <a href=\"https://mxtoolbox.com/diagnostic.aspx\" target=\"_blank\">https://mxtoolbox.com/diagnostic.aspx</a><br/>
+                </div><br/>";
             }
             else{
                 $smtp_info = "<font size=\"3\"><b>SMTP Server Test: No Results Found</b></font></br>";
@@ -955,8 +1051,7 @@ class AuditController extends Controller
                     $tb_status
                     </table>
                     </div>
-                    </div><br/>
-                    More Info: <a target='_blank' href='https://dmarc.org/overview/'>https://dmarc.org/overview/</a><br/><br/>";
+                    </div><br/>";
                 }
                 else{
                     $crawler->filter('.tool-result-body > table')->last()->filter('thead > tr > th')->eq(3)->each(function (Crawler $crawler) {
@@ -979,8 +1074,7 @@ class AuditController extends Controller
                     $tb_status
                     </table>
                     </div>
-                    </div><br/>
-                    More Info: <a target='_blank' href='https://dmarc.org/overview/'>https://dmarc.org/overview/</a><br/><br/>";
+                    </div><br/>";
                 }
                 
             }
@@ -988,10 +1082,19 @@ class AuditController extends Controller
                 $saverity_medium += 1;
                 $audit_data['dmarc_needed'] = true;
                 $dmarc_info = "<font size=\"3\"><b>DMARC Record - </b></font><font size=\"3\" color=\"#FFE04F\"><b>Medium</b></font></br>".$dmarc_info;
+                $dmarc_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #FFE04F\">
+                    <b>Risk Level:</b> Medium<br/>
+                    Information: The undetectable DMARC Record shows the website has no email handling that is indicated as spam.<br/>
+                    Retrieved from: <a href=\"https://mxtoolbox.com/dmarc.aspx\" target=\"_blank\">https://mxtoolbox.com/dmarc.aspx</a><br/>
+                </div><br/>";
             }
             else if($dmarc_response){
                 $saverity_info += 1;
-                $dmarc_info = "<font size=\"3\"><b>DMARC Record - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Information</b></font></br>".$dmarc_info;
+                $dmarc_info = "<font size=\"3\"><b>DMARC Record - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Informational</b></font></br>".$dmarc_info;
+                $dmarc_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #3B8AD5\">
+                    <b>Risk Level:</b> Informational<br/>
+                    Retrieved from: <a href=\"https://mxtoolbox.com/dmarc.aspx\" target=\"_blank\">https://mxtoolbox.com/dmarc.aspx</a><br/>
+                </div><br/>";
             }
             else{
                 $dmarc_info = "<font size=\"3\"><b>DMARC Record: No Results Found</b></font></br>";
@@ -1031,8 +1134,7 @@ class AuditController extends Controller
                     $tb_status
                     </table>
                     </div>
-                    </div><br/>
-                    More Info: <a target='_blank' href='http://www.openspf.org/Introduction'>http://www.openspf.org/Introduction</a><br/><br/>";
+                    </div><br/>";
                 }
                 else{
                     $crawler->filter('.tool-result-body > table')->last()->filter('thead > tr > th')->eq(3)->each(function (Crawler $crawler) {
@@ -1055,8 +1157,7 @@ class AuditController extends Controller
                     $tb_status
                     </table>
                     </div>
-                    </div><br/>
-                    More Info: <a target='_blank' href='http://www.openspf.org/Introduction'>http://www.openspf.org/Introduction</a><br/><br/>";
+                    </div><br/>";
                 }
                 
             }
@@ -1064,10 +1165,19 @@ class AuditController extends Controller
                 $saverity_medium += 1;
                 $audit_data['spf_needed'] = true;
                 $spf_info = "<font size=\"3\"><b>SPF Record - </b></font><font size=\"3\" color=\"#FFE04F\"><b>Medium</b></font></br>".$spf_info;
+                $spf_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #FFE04F\">
+                    <b>Risk Level:</b> Medium<br/>
+                    Information: The undetectable SPF Record shows the website does not have email sender checking of incoming email. This can cause email services to be vulnerable to spam email.<br/>
+                    Retrieved from: <a href=\"https://mxtoolbox.com/spf.aspx\" target=\"_blank\">https://mxtoolbox.com/spf.aspx</a><br/>
+                </div><br/>";
             }
             else if($spf_response){
                 $saverity_info += 1;
-                $spf_info = "<font size=\"3\"><b>SPF Record - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Information</b></font></br>".$spf_info;
+                $spf_info = "<font size=\"3\"><b>SPF Record - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Informational</b></font></br>".$spf_info;
+                $spf_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #3B8AD5\">
+                    <b>Risk Level:</b> Informational<br/>
+                    Retrieved from: <a href=\"https://mxtoolbox.com/spf.aspx\" target=\"_blank\">https://mxtoolbox.com/spf.aspx</a><br/>
+                </div><br/>";
             }
             else{
                 $spf_info = "<font size=\"3\"><b>SPF Record: No Results Found</b></font></br>";
