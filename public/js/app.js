@@ -1315,12 +1315,15 @@ $(function () {
 
 	function setThemeState() {
 		// set theme type
-		var root = location.protocol + '//' + location.host + '/';
+		var root = location.protocol + '//' + location.host + '/css';
+        if (typeof csspath !== 'undefined') {
+            root = csspath;
+        }
 		if (themeSettings.themeName) {
-			$styleLink.attr('href', root + 'css/app-' + themeSettings.themeName + '.css');
+			$styleLink.attr('href', root + '/app-' + themeSettings.themeName + '.css');
 		}
 		else {
-			$styleLink.attr('href', root + 'css/app.css');
+			$styleLink.attr('href', root + '/app.css');
 		}
 
 		// App classes
