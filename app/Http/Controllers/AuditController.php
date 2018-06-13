@@ -104,10 +104,10 @@ class AuditController extends Controller
         
         $domain = request('domain');
         $hostip = gethostbyname($domain);
-        $saverity_info = 1;
-        $saverity_low = 0;
-        $saverity_medium = 0;
-        $saverity_high = 0;
+        $risk_info = 1;
+        $risk_low = 0;
+        $risk_medium = 0;
+        $risk_high = 0;
         $audit_data = [];
         $audit_data['web_domain'] = $domain;
         $audit_data['host_ip'] = $hostip;
@@ -398,7 +398,7 @@ class AuditController extends Controller
                 
             }
             if($vuln_heartbleed){
-                $saverity_high += 1;
+                $risk_high += 1;
                 $audit_data['ssl_heartbleed'] = true;
                 $ssl_info = "<font size=\"3\"><b>SSL Certificate - </b></font><font size=\"3\" color=\"#F45C51\"><b>High</b></font></br>".$ssl_info;
                 $ssl_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #F45C51\">
@@ -408,7 +408,7 @@ class AuditController extends Controller
                 </div><br/>";
             }
             else if($ssl_expired){
-                $saverity_medium += 1;
+                $risk_medium += 1;
                 $audit_data['ssl_expired'] = true;
                 $ssl_info = "<font size=\"3\"><b>SSL Certificate - </b></font><font size=\"3\" color=\"#FFE04F\"><b>Medium</b></font></br>".$ssl_info;
                 $ssl_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #FFE04F\">
@@ -418,7 +418,7 @@ class AuditController extends Controller
                 </div><br/>";
             }
             else if($has_ssl){
-                $saverity_info += 1;
+                $risk_info += 1;
                 $ssl_info = "<font size=\"3\"><b>SSL Certificate - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Informational</b></font></br>".$ssl_info;
                 $ssl_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #3B8AD5\">
                     <b>Risk Level:</b> Informational<br/>
@@ -426,7 +426,7 @@ class AuditController extends Controller
                 </div><br/>";
             }
             else if($ssl_response){
-                $saverity_medium += 1;
+                $risk_medium += 1;
                 $ssl_info = "<font size=\"3\"><b>SSL Certificate - </b></font><font size=\"3\" color=\"#FFE04F\"><b>Medium</b></font></br>".$ssl_info;
                 $ssl_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #FFE04F\">
                     <b>Risk Level:</b> Medium<br/>
@@ -449,7 +449,7 @@ class AuditController extends Controller
         $port_info = "<font size=\"3\"><b>Open Ports and Services: No Results Found</b></font></br>";
         try {
             if($port_result->getStatus() == '200'){
-                $saverity_info += 1;
+                $risk_info += 1;
                 $decode = json_decode($port_result->getContent(), true);
                 $decode = json_decode($decode["d"], true);
                 $crawler = new Crawler($decode["HTML_Value"]);
@@ -494,7 +494,7 @@ class AuditController extends Controller
                 </div><br/>";
             }
             if($has_problem && $has_ok){
-                $saverity_low += 1;
+                $risk_low += 1;
                 $dns_info = "<font size=\"3\"><b>DNS Server - </b></font><font size=\"3\" color=\"#5ECA62\"><b>Low</b></font></br>".$dns_info;
                 $dns_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #5ECA62\">
                     <b>Risk Level:</b> Low<br/>
@@ -503,7 +503,7 @@ class AuditController extends Controller
                 </div><br/>";
             }
             else if($has_problem){
-                $saverity_medium += 1;
+                $risk_medium += 1;
                 $dns_info = "<font size=\"3\"><b>DNS Server - </b></font><font size=\"3\" color=\"#FFE04F\"><b>Medium</b></font></br>".$dns_info;
                 $dns_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #FFE04F\">
                     <b>Risk Level:</b> Medium<br/>
@@ -512,7 +512,7 @@ class AuditController extends Controller
                 </div><br/>";
             }
             else if($dns_response){
-                $saverity_info += 1;
+                $risk_info += 1;
                 $dns_info = "<font size=\"3\"><b>DNS Server - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Informational</b></font></br>".$dns_info;
                 $dns_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #3B8AD5\">
                     <b>Risk Level:</b> Informational<br/>
@@ -579,7 +579,7 @@ class AuditController extends Controller
                 }  
             }
             if($cname_record || $cname_response){
-                $saverity_info += 1;
+                $risk_info += 1;
                 $cname_info = "<font size=\"3\"><b>CNAME Record - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Informational</b></font></br>".$cname_info;
                 $cname_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #3B8AD5\">
                     <b>Risk Level:</b> Informational<br/>
@@ -647,7 +647,7 @@ class AuditController extends Controller
                 
             }
             if($txt_response || $txt_record){
-                $saverity_info += 1;
+                $risk_info += 1;
                 $txt_info = "<font size=\"3\"><b>TXT Record - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Informational</b></font></br>".$txt_info;
                 $txt_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #3B8AD5\">
                     <b>Risk Level:</b> Informational<br/>
@@ -736,7 +736,7 @@ class AuditController extends Controller
                 </div><br/>";
             }
             if($domain_expired){
-                $saverity_medium += 1;
+                $risk_medium += 1;
                 $whois_info = "<font size=\"3\"><b>WHOIS Record - </b></font><font size=\"3\" color=\"#FFE04F\"><b>Medium</b></font></br>".$whois_info;
                 $whois_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #FFE04F\">
                     <b>Risk Level:</b> Medium<br/>
@@ -745,7 +745,7 @@ class AuditController extends Controller
                 </div><br/>";
             }
             else if($has_registrant){
-                $saverity_medium += 1;
+                $risk_medium += 1;
                 $audit_data['whois_registrant'] = $has_registrant;
                 $audit_data['whois_domain_email'] = $domain_email;
                 $audit_data['whois_domain_owner'] = $domain_owner;
@@ -757,7 +757,7 @@ class AuditController extends Controller
                 </div><br/>";
             }
             else if($whois_response){
-                $saverity_info += 1;
+                $risk_info += 1;
                 $whois_info = "<font size=\"3\"><b>WHOIS Record - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Informational</b></font></br>".$whois_info;
                 $whois_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #3B8AD5\">
                     <b>Risk Level:</b> Informational<br/>
@@ -815,7 +815,7 @@ class AuditController extends Controller
                 }
             }
             if($has_openresolver){
-                $saverity_high += 1;
+                $risk_high += 1;
                 $audit_data['openresolver_vuln'] = true;
                 $openresolver_info = "<font size=\"3\"><b>Open DNS Resolver - </b></font><font size=\"3\" color=\"#F45C51\"><b>High</b></font></br>".$openresolver_info;
                 $openresolver_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #F45C51\">
@@ -825,7 +825,7 @@ class AuditController extends Controller
                 </div><br/>";
             }
             else if($openresolver_response){
-                $saverity_info += 1;
+                $risk_info += 1;
                 $openresolver_info = "<font size=\"3\"><b>Open DNS Resolver - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Informational</b></font></br>".$openresolver_info;
                 $openresolver_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #3B8AD5\">
                     <b>Risk Level:</b> Informational<br/>
@@ -923,7 +923,7 @@ class AuditController extends Controller
                 
             }
             if($mx_response || $mx_record){
-                $saverity_info += 1;
+                $risk_info += 1;
                 $mx_info = "<font size=\"3\"><b>MX Record - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Informational</b></font></br>".$mx_info;
                 $mx_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #3B8AD5\">
                     <b>Risk Level:</b> Informational<br/>
@@ -987,7 +987,7 @@ class AuditController extends Controller
                 
             }
             if($smtp_record && $has_openrelay){
-                $saverity_high += 1;
+                $risk_high += 1;
                 $audit_data['smtp_openrelay'] = true;
                 $smtp_info = "<font size=\"3\"><b>SMTP Server Test - </b></font><font size=\"3\" color=\"#F45C51\"><b>High</b></font></br>".$smtp_info;
                 $smtp_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #F45C51\">
@@ -997,7 +997,7 @@ class AuditController extends Controller
                 </div><br/>";
             }
             else if($smtp_warning){
-                $saverity_low += 1;
+                $risk_low += 1;
                 $smtp_info = "<font size=\"3\"><b>SMTP Server Test - </b></font><font size=\"3\" color=\"#5ECA62\"><b>Low</b></font></br>".$smtp_info;
                 $smtp_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #5ECA62\">
                     <b>Risk Level:</b> Low<br/>
@@ -1006,7 +1006,7 @@ class AuditController extends Controller
                 </div><br/>";
             }
             else if($smtp_response){
-                $saverity_info += 1;
+                $risk_info += 1;
                 $smtp_info = "<font size=\"3\"><b>SMTP Server Test - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Informational</b></font></br>".$smtp_info;
                 $smtp_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #3B8AD5\">
                     <b>Risk Level:</b> Informational<br/>
@@ -1079,7 +1079,7 @@ class AuditController extends Controller
                 
             }
             if($mx_record && (!$dmarc_record)){
-                $saverity_medium += 1;
+                $risk_medium += 1;
                 $audit_data['dmarc_needed'] = true;
                 $dmarc_info = "<font size=\"3\"><b>DMARC Record - </b></font><font size=\"3\" color=\"#FFE04F\"><b>Medium</b></font></br>".$dmarc_info;
                 $dmarc_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #FFE04F\">
@@ -1089,7 +1089,7 @@ class AuditController extends Controller
                 </div><br/>";
             }
             else if($dmarc_response){
-                $saverity_info += 1;
+                $risk_info += 1;
                 $dmarc_info = "<font size=\"3\"><b>DMARC Record - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Informational</b></font></br>".$dmarc_info;
                 $dmarc_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #3B8AD5\">
                     <b>Risk Level:</b> Informational<br/>
@@ -1162,7 +1162,7 @@ class AuditController extends Controller
                 
             }
             if($mx_record && (!$spf_record)){
-                $saverity_medium += 1;
+                $risk_medium += 1;
                 $audit_data['spf_needed'] = true;
                 $spf_info = "<font size=\"3\"><b>SPF Record - </b></font><font size=\"3\" color=\"#FFE04F\"><b>Medium</b></font></br>".$spf_info;
                 $spf_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #FFE04F\">
@@ -1172,7 +1172,7 @@ class AuditController extends Controller
                 </div><br/>";
             }
             else if($spf_response){
-                $saverity_info += 1;
+                $risk_info += 1;
                 $spf_info = "<font size=\"3\"><b>SPF Record - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Informational</b></font></br>".$spf_info;
                 $spf_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #3B8AD5\">
                     <b>Risk Level:</b> Informational<br/>
@@ -1189,12 +1189,12 @@ class AuditController extends Controller
         $audit_data['spf_info'] = $spf_info;
 
 
-        //$saverity_high += 1;
-        //save saverity
-        $audit_data['saverity_info'] = $saverity_info;
-        $audit_data['saverity_low'] = $saverity_low;
-        $audit_data['saverity_medium'] = $saverity_medium;
-        $audit_data['saverity_high'] = $saverity_high;
+        //$risk_high += 1;
+        //save risk
+        $audit_data['risk_info'] = $risk_info;
+        $audit_data['risk_low'] = $risk_low;
+        $audit_data['risk_medium'] = $risk_medium;
+        $audit_data['risk_high'] = $risk_high;
         $audit_data['created_at'] = now();
 
         //save to database
@@ -1223,16 +1223,16 @@ class AuditController extends Controller
             'dmarc_needed' => $audit_data['dmarc_needed'],
             'spf_info' => $audit_data['spf_info'],
             'spf_needed' => $audit_data['spf_needed'],
-            'saverity_info' => $audit_data['saverity_info'],
-            'saverity_low' => $audit_data['saverity_low'],
-            'saverity_medium' => $audit_data['saverity_medium'],
-            'saverity_high' => $audit_data['saverity_high'],
+            'risk_info' => $audit_data['risk_info'],
+            'risk_low' => $audit_data['risk_low'],
+            'risk_medium' => $audit_data['risk_medium'],
+            'risk_high' => $audit_data['risk_high'],
             'created_at' => $audit_data['created_at']
         ]);
 
         $token_generated = (new DownloadController)->generate_token($audit_results);
         $sendEmail = Auth::user()->setting->sendmail;
-        $isSendOwner = (!empty($audit_data['whois_domain_email']) && $audit_data['saverity_high'] > 0) ? true : false;
+        $isSendOwner = (!empty($audit_data['whois_domain_email']) && $audit_data['risk_high'] > 0) ? true : false;
         if($token_generated && $sendEmail){
             event(new AuditResultCreated($audit_results, $isSendOwner));
         }

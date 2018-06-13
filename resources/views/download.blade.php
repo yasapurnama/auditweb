@@ -16,9 +16,9 @@ Host IP: {{ isset($audit_results['host_ip']) ? $audit_results['host_ip'] : '' }}
 {!! isset($audit_results['smtp_info']) ? $audit_results['smtp_info'] : '' !!}<br/>
 {!! isset($audit_results['dmarc_info']) ? $audit_results['dmarc_info'] : '' !!}<br/>
 {!! isset($audit_results['spf_info']) ? $audit_results['spf_info'] : '' !!}<br/>
-@if (isset($audit_results['saverity_info'], $audit_results['saverity_low'], $audit_results['saverity_medium'], $audit_results['saverity_high']))
+@if (isset($audit_results['risk_info'], $audit_results['risk_low'], $audit_results['risk_medium'], $audit_results['risk_high']))
     @php
-    $severity_all = $audit_results['saverity_info']+$audit_results['saverity_low']+$audit_results['saverity_medium']+$audit_results['saverity_high'];
+    $risk_all = $audit_results['risk_info']+$audit_results['risk_low']+$audit_results['risk_medium']+$audit_results['risk_high'];
     @endphp
 
     <b>Risk Calculation:</b><br/>
@@ -33,16 +33,16 @@ Host IP: {{ isset($audit_results['host_ip']) ? $audit_results['host_ip'] : '' }}
                 </ul>
             </td>
             <td>
-                : {{ $audit_results['saverity_info']." / ".$severity_all." x 100%" }}<br />
-                : {{ $audit_results['saverity_low']." / ".$severity_all." x 100%" }}<br />
-                : {{ $audit_results['saverity_medium']." / ".$severity_all." x 100%" }}<br />
-                : {{ $audit_results['saverity_high']." / ".$severity_all." x 100%" }}<br />
+                : {{ $audit_results['risk_info']." / ".$risk_all." x 100%" }}<br />
+                : {{ $audit_results['risk_low']." / ".$risk_all." x 100%" }}<br />
+                : {{ $audit_results['risk_medium']." / ".$risk_all." x 100%" }}<br />
+                : {{ $audit_results['risk_high']." / ".$risk_all." x 100%" }}<br />
             </td>
             <td>
-                {{ "= ".round(($audit_results['saverity_info']/$severity_all*100))."%" }}<br />
-                {{ "= ".round(($audit_results['saverity_low']/$severity_all*100))."%" }}<br />
-                {{ "= ".round(($audit_results['saverity_medium']/$severity_all*100))."%" }}<br />
-                {{ "= ".round(($audit_results['saverity_high']/$severity_all*100))."%" }}<br />
+                {{ "= ".round(($audit_results['risk_info']/$risk_all*100))."%" }}<br />
+                {{ "= ".round(($audit_results['risk_low']/$risk_all*100))."%" }}<br />
+                {{ "= ".round(($audit_results['risk_medium']/$risk_all*100))."%" }}<br />
+                {{ "= ".round(($audit_results['risk_high']/$risk_all*100))."%" }}<br />
             </td>
         </tr>
     </table> 

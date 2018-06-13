@@ -68,19 +68,19 @@ $(function() {
         //Flot Pie Chart
         var data = [{
             label: "Informational",
-            data: {{ isset($audit_results['saverity_info']) ? $audit_results['saverity_info'] : 0 }},
+            data: {{ isset($audit_results['risk_info']) ? $audit_results['risk_info'] : 0 }},
             color: tinycolor('rgb(59, 138, 213)'),
         }, {
             label: "Low",
-            data: {{ isset($audit_results['saverity_low']) ? $audit_results['saverity_low'] : 0 }},
+            data: {{ isset($audit_results['risk_low']) ? $audit_results['risk_low'] : 0 }},
             color: tinycolor('rgb(94, 202, 98)'),
         }, {
             label: "Medium",
-            data: {{ isset($audit_results['saverity_medium']) ? $audit_results['saverity_medium'] : 0 }},
+            data: {{ isset($audit_results['risk_medium']) ? $audit_results['risk_medium'] : 0 }},
             color: tinycolor('rgb(255, 224, 79)'),
         }, {
             label: "High",
-            data: {{ isset($audit_results['saverity_high']) ? $audit_results['saverity_high'] : 0 }},
+            data: {{ isset($audit_results['risk_high']) ? $audit_results['risk_high'] : 0 }},
             color: tinycolor('rgb(244, 92, 81)'),
         }];
 

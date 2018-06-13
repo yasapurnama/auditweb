@@ -69,6 +69,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'username' => $data['username'],
             'password' => bcrypt($data['password']),
+            'status' => 1,
         ]);
 
         $settings = Setting::create([

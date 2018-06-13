@@ -18,6 +18,7 @@ class UsersTableSeeder extends Seeder
             'username' => "admin",
             'password' => bcrypt("abc12345"),
             'role' => 2,
+            'status' => 1,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -27,6 +28,7 @@ class UsersTableSeeder extends Seeder
             'username' => "yasapurnama",
             'password' => bcrypt("abc12345"),
             'role' => 1,
+            'status' => 1,
             'created_at' => now(),
             'updated_at' => now(),
         ]);

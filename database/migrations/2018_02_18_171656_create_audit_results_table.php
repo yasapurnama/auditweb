@@ -39,10 +39,10 @@ class CreateAuditResultsTable extends Migration
             $table->boolean('dmarc_needed')->default(false);
             $table->text('spf_info');
             $table->boolean('spf_needed')->default(false);
-            $table->integer('saverity_info')->default(0);
-            $table->integer('saverity_low')->default(0);
-            $table->integer('saverity_medium')->default(0);
-            $table->integer('saverity_high')->default(0);
+            $table->integer('risk_info')->default(0);
+            $table->integer('risk_low')->default(0);
+            $table->integer('risk_medium')->default(0);
+            $table->integer('risk_high')->default(0);
             $table->timestamps();
         });
     }
