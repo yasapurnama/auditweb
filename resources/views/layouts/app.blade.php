@@ -47,8 +47,14 @@
                 <div class="sidebar-mobile-menu-handle" id="sidebar-mobile-menu-handle"></div>
                 <div class="mobile-menu-handle"></div>
                 <ol class="new-breadcrumb">
-                    <li class="breadcrumb-item"><em class="fa fa-home"></em> Home</li>
-                    <li class="breadcrumb-item active">Dashboard</li>
+                    {{-- <li class="breadcrumb-item"> Home</li> --}}
+                    <li class="breadcrumb-item{{ Route::currentRouteName() == "dashboard" ? " active" : "" }}"><em class="fa fa-home"></em> Dashboard</li>
+                    @if (Route::currentRouteName() == "scan" || Route::currentRouteName() == "history" || Route::currentRouteName() == "result")
+                        <li class="breadcrumb-item">Website Auditor</li>
+                    @endif
+                    @if (Route::currentRouteName() != "dashboard")
+                        <li class="breadcrumb-item active">{{ ucfirst(Route::currentRouteName()) }}</li>
+                    @endif
                 </ol>
                 <article class="content dashboard-page">
                     

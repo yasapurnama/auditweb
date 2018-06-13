@@ -16,26 +16,38 @@ Host IP: {{ isset($audit_results['host_ip']) ? $audit_results['host_ip'] : '' }}
 {!! isset($audit_results['smtp_info']) ? $audit_results['smtp_info'] : '' !!}<br/>
 {!! isset($audit_results['dmarc_info']) ? $audit_results['dmarc_info'] : '' !!}<br/>
 {!! isset($audit_results['spf_info']) ? $audit_results['spf_info'] : '' !!}<br/>
-<b>Risk Calculation:</b><br/>
+@if (isset($audit_results['saverity_info'], $audit_results['saverity_low'], $audit_results['saverity_medium'], $audit_results['saverity_high']))
+    @php
+    $severity_all = $audit_results['saverity_info']+$audit_results['saverity_low']+$audit_results['saverity_medium']+$audit_results['saverity_high'];
+    @endphp
 
-<table>
-    <tr>
-        <td>
-            <ul>
-                <li>Informational</li>
-                <li>Low</li>
-                <li>Medium</li>
-                <li>High</li>
-            </ul>
-        </td>
-        <td>
-            : sdnsjd<br />
-            : sndjsn<br />
-            : sndjsn<br />
-            : sndjsn<br />
-        </td>
-    </tr>
-</table> 
+    <b>Risk Calculation:</b><br/>
+    <table>
+        <tr>
+            <td>
+                <ul>
+                    <li>Informational</li>
+                    <li>Low</li>
+                    <li>Medium</li>
+                    <li>High</li>
+                </ul>
+            </td>
+            <td>
+                : {{ $audit_results['saverity_info']." / ".$severity_all." x 100%" }}<br />
+                : {{ $audit_results['saverity_low']." / ".$severity_all." x 100%" }}<br />
+                : {{ $audit_results['saverity_medium']." / ".$severity_all." x 100%" }}<br />
+                : {{ $audit_results['saverity_high']." / ".$severity_all." x 100%" }}<br />
+            </td>
+            <td>
+                {{ "= ".round(($audit_results['saverity_info']/$severity_all*100))."%" }}<br />
+                {{ "= ".round(($audit_results['saverity_low']/$severity_all*100))."%" }}<br />
+                {{ "= ".round(($audit_results['saverity_medium']/$severity_all*100))."%" }}<br />
+                {{ "= ".round(($audit_results['saverity_high']/$severity_all*100))."%" }}<br />
+            </td>
+        </tr>
+    </table> 
+@endif
+
 <br/>
 <br/>
 <hr>

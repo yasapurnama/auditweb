@@ -4,7 +4,13 @@
                         </button>
                     </div>
                     <div class="header-block header-block-search">
-                        <strong>{{ ucfirst(Route::currentRouteName()) }}</strong>
+                        <strong>
+                            @if (Route::currentRouteName() == "scan" || Route::currentRouteName() == "history" || Route::currentRouteName() == "result")
+                                Website Auditor
+                            @else
+                                {{ ucfirst(Route::currentRouteName()) }}
+                            @endif
+                        </strong>
                     </div>
                     {{-- <div class="header-block header-block-search">
                         <form role="search">

@@ -44,7 +44,7 @@ class DownloadController extends Controller
         else{
             return abort(404);
         }
-        return view('download', compact('audit_results')); //for debuging perpose
+        //return view('download', compact('audit_results')); //for debuging perpose
         $pdf = PDF::loadView('download', compact('audit_results'));
         $created_at = $audit_results->created_at->format('dmY_Hi');
         return $pdf->download('audit_result_'.$created_at.'.pdf');
