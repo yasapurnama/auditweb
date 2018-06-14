@@ -3,7 +3,15 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title> {{ ucfirst(Route::currentRouteName()) }} | Website Audit with Webscraping Technique </title>
+        @if (Route::currentRouteName() == "scan" || Route::currentRouteName() == "history" || Route::currentRouteName() == "result")
+            <title> Website Auditor | Website Audit with Webscraping Technique </title>
+        @elseif (Route::currentRouteName() == "manage.history")
+            <title> Management History | Website Audit with Webscraping Technique </title>
+        @elseif (Route::currentRouteName() == "manage.users" || Route::currentRouteName() == "manage.usersedit")
+            <title> Management Users | Website Audit with Webscraping Technique </title>
+        @else
+            <title> {{ ucfirst(Route::currentRouteName()) }} | Website Audit with Webscraping Technique </title>
+        @endif
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon" />
