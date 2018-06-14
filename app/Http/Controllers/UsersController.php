@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\AuditResult;
+use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class HistoryController extends Controller
+class UsersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +14,8 @@ class HistoryController extends Controller
      */
     public function index()
     {
-        $auditResults = AuditResult::latest()->paginate(10);
-        return view('manage.history', compact('auditResults'));
+        $users = User::latest()->paginate(10);
+        return view('manage.users', compact('users'));
     }
 
     /**
@@ -43,10 +42,10 @@ class HistoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\AuditResult  $auditResult
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(AuditResult $auditResult)
+    public function show(User $user)
     {
         //
     }
@@ -54,10 +53,10 @@ class HistoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\AuditResult  $auditResult
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(AuditResult $auditResult)
+    public function edit(User $user)
     {
         //
     }
@@ -66,10 +65,10 @@ class HistoryController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\AuditResult  $auditResult
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AuditResult $auditResult)
+    public function update(Request $request, User $user)
     {
         //
     }
@@ -77,10 +76,10 @@ class HistoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\AuditResult  $auditResult
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AuditResult $auditResult)
+    public function destroy(User $user)
     {
         //
     }

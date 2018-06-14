@@ -7,6 +7,10 @@
                         <strong>
                             @if (Route::currentRouteName() == "scan" || Route::currentRouteName() == "history" || Route::currentRouteName() == "result")
                                 Website Auditor
+                            @elseif (Route::currentRouteName() == "manage.history")
+                                Management History
+                            @elseif (Route::currentRouteName() == "manage.users" || Route::currentRouteName() == "manage.usersedit")
+                                Management Users
                             @else
                                 {{ ucfirst(Route::currentRouteName()) }}
                             @endif
@@ -93,10 +97,12 @@
                                 <div class="dropdown-menu profile-dropdown-menu" aria-labelledby="dropdownMenu1">
                                     <a class="dropdown-item" href="{{ route('profile') }}">
                                         <i class="fa fa-user icon"></i> Profile </a>
+                                    @if (Auth::user()->role == 1)
                                     <a class="dropdown-item" href="{{ route('notification') }}">
                                         <i class="fa fa-bell icon"></i> Notifications </a>
                                     <a class="dropdown-item" href="{{ route('setting') }}">
                                         <i class="fa fa-gear icon"></i> Settings </a>
+                                    @endif
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                                         <i class="fa fa-power-off icon"></i> Logout </a>

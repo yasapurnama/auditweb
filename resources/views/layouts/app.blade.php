@@ -51,8 +51,16 @@
                     <li class="breadcrumb-item{{ Route::currentRouteName() == "dashboard" ? " active" : "" }}"><em class="fa fa-home"></em> Dashboard</li>
                     @if (Route::currentRouteName() == "scan" || Route::currentRouteName() == "history" || Route::currentRouteName() == "result")
                         <li class="breadcrumb-item">Website Auditor</li>
+                    @elseif (Route::currentRouteName() == "manage.history" || Route::currentRouteName() == "manage.users" || Route::currentRouteName() == "manage.usersedit")
+                        <li class="breadcrumb-item">Management</li>
                     @endif
-                    @if (Route::currentRouteName() != "dashboard")
+                    @if (Route::currentRouteName() == "manage.history")
+                        <li class="breadcrumb-item active">History</li>
+                    @elseif (Route::currentRouteName() == "manage.users")
+                        <li class="breadcrumb-item active">Users</li>
+                    @elseif (Route::currentRouteName() == "manage.usersedit")
+                        <li class="breadcrumb-item active">Users</li>
+                    @elseif (Route::currentRouteName() != "dashboard")
                         <li class="breadcrumb-item active">{{ ucfirst(Route::currentRouteName()) }}</li>
                     @endif
                 </ol>

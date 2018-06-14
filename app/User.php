@@ -37,6 +37,11 @@ class User extends Authenticatable
         return $this->role == 2 ? true : false;
     }
 
+    public function isDisabled()
+    {
+        return $this->status == 0 ? true : false;
+    }
+
     public function setting()
     {
         return $this->hasOne(Setting::class);

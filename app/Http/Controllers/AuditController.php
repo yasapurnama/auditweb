@@ -26,7 +26,6 @@ class AuditController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
         $this->guzzleConfig = [
             'timeout' => 60,
             'verify' => false,

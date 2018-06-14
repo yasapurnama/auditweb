@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
 class adminMiddleware
 {
@@ -15,8 +16,11 @@ class adminMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $user = $request->user();
-        if ($user && $user->isAdmin()) {
+        if (Auth::check() && Auth::user()->isDisabled()) {
+            Auth::logout();
+            return redirect('/login')->with('warning', 'Your session has expired because your account has been disabled.');
+        }
+        else if (Auth::check() && Auth::user()->isAdmin()) {
             return $next($request);
         }
         return redirect('/login');

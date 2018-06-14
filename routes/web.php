@@ -17,48 +17,44 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/dashboard', 'HomeController@index')->name('dashboard');
+Route::middleware(['auth', 'user'])->group(function () {
+    //[User]
+    //Web Auditor
+    Route::get('/scan', 'AuditController@index')->name('scan');
+    Route::post('/scan', 'AuditController@scan')->name('scan');
+    Route::get('/history', 'AuditController@history')->name('history');
+    Route::get('/history/{result}', 'AuditController@show')->name('result');
+    Route::post('/history/delete', 'AuditController@destroy')->name('result.delete');
 
-Route::get('/scan', [
-    'middleware' => ['auth'],
-    'uses' => 'AuditController@index'
-])->name('scan');
-Route::post('/scan', [
-    'middleware' => ['auth'],
-    'uses' => 'AuditController@scan'
-])->name('scan');
-Route::get('/history', [
-    'middleware' => ['auth'],
-    'uses' => 'AuditController@history'
-])->name('history');
-Route::get('/history/{result}', [
-    'middleware' => ['auth'],
-    'uses' => 'AuditController@show'
-])->name('result');
-Route::post('/history/delete', [
-    'middleware' => ['auth'],
-    'uses' => 'AuditController@destroy'
-])->name('result.delete');
+    //Notification
+    Route::get('/notification', 'NotificationController@index')->name('notification');
+    Route::get('/notification/update', 'NotificationController@update')->name('notification.update');
+    Route::post('/notification/delete', 'NotificationController@destroy')->name('notification.delete');
 
-Route::get('/download/{result}', 'DownloadController@download')->name('download');
+    //Setting
+    Route::get('/setting', 'SettingController@index')->name('setting');
+    Route::post('/setting', 'SettingController@update')->name('setting');
 
-Route::get('/profile', 'ProfileController@index')->name('profile');
-Route::get('/profile/edit', 'ProfileController@edit')->name('editprofile');
-Route::post('/profile/edit', 'ProfileController@update')->name('editprofile');
 
-Route::get('/notification', 'NotificationController@index')->name('notification');
-Route::get('/notification/update', 'NotificationController@update')->name('notification.update');
-Route::post('/notification/delete', 'NotificationController@destroy')->name('notification.delete');
+    //[User And Admin]
+    //Dashboard
+    Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 
-Route::get('/setting', 'SettingController@index')->name('setting');
-Route::post('/setting', 'SettingController@update')->name('setting');
+    //Profile
+    Route::get('/profile', 'ProfileController@index')->name('profile');
+    Route::get('/profile/edit', 'ProfileController@edit')->name('editprofile');
+    Route::post('/profile/edit', 'ProfileController@update')->name('editprofile');
 
-Route::group(['middleware' => 'admin'], function() {
-    Route::get('/admin', 'AdminController@index')->name('admin');
+    //[Admin]
+    Route::group(['prefix' => 'manage', 'middleware' => 'admin'], function() {
+        //History
+        Route::get('/history', 'HistoryController@index')->name('manage.history');
+
+        //Users
+        Route::get('/users', 'UsersController@index')->name('manage.users');
+        //Route::get('/users/edit', 'UsersController@edit')->name('manage.usersedit');
+    });
+
 });
 
-// Route::get('user/{user}', [
-//      'middleware' => ['auth', 'roles'],
-//      'uses' => 'UserController@index',
-//      'roles' => ['administrator', 'manager']
-// ]);
+Route::get('/download/{result}', 'DownloadController@download')->name('download');

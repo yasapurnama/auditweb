@@ -9,16 +9,6 @@ use Illuminate\Support\Facades\Auth;
 class SettingController extends Controller
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
      * Show the application setting.
      *
      * @return \Illuminate\Http\Response

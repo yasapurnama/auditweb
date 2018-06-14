@@ -10,21 +10,41 @@
                                     <a href="{{ route('dashboard') }}" {!! Route::currentRouteName()!='dashboard' ? 'style="background-color: #2d363f;"' : '' !!}>
                                         <i class="fa fa-home"></i> Dashboard </a>
                                 </li>
-                                <li class="{{ Route::currentRouteName()=='scan' ? 'active open' : Route::currentRouteName()=='history' ? 'active open' : Route::currentRouteName()=='result' ? 'active open' : '' }}">
+                                @if (Auth::user()->role == 2)
+                                <li class="{{ (Route::currentRouteName()=='manage.history' || Route::currentRouteName()=='manage.users' || Route::currentRouteName()=='manage.usersedit') ? 'active open' : '' }}">
+                                    <a href="">
+                                        <i class="fa fa-th-large"></i> Management
+                                        <i class="fa arrow"></i>
+                                    </a>
+                                    <ul class="sidebar-nav">
+                                        <li class="{{ (Route::currentRouteName()=='manage.users' || Route::currentRouteName()=='manage.usersedit') ? 'active' : '' }}">
+                                            <a href="{{ route('manage.users') }}"><i class="fa fa-users"></i> Users </a>
+                                        </li>
+                                        <li class="{{ Route::currentRouteName()=='manage.history' ? 'active' : '' }}">
+                                            <a href="{{ route('manage.history') }}"><i class="fa fa-clock-o"></i> History </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="{{ (Route::currentRouteName()=='profile' || Route::currentRouteName()=='editprofile') ? 'active' : '' }}">
+                                    <a href="{{ route('profile') }}">
+                                        <i class="fa fa-user"></i> Admin Profile </a>
+                                </li>
+                                @else
+                                <li class="{{ (Route::currentRouteName()=='scan' || Route::currentRouteName()=='history' || Route::currentRouteName()=='result') ? 'active open' : '' }}">
                                     <a href="">
                                         <i class="fa fa-bar-chart"></i> Website Auditor
                                         <i class="fa arrow"></i>
                                     </a>
                                     <ul class="sidebar-nav">
                                         <li class="{{ Route::currentRouteName()=='scan' ? 'active' : '' }}">
-                                            <a href="{{ route('scan') }}"> Scan </a>
+                                            <a href="{{ route('scan') }}"><i class="fa fa-search"></i> Scan </a>
                                         </li>
                                         <li class="{{ Route::currentRouteName()=='history' ? 'active' : '' }}">
-                                            <a href="{{ route('history') }}"> History </a>
+                                            <a href="{{ route('history') }}"><i class="fa fa-clock-o"></i> History </a>
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="{{ Route::currentRouteName()=='profile' ? 'active' : Route::currentRouteName()=='editprofile' ? 'active' : '' }}">
+                                <li class="{{ (Route::currentRouteName()=='profile' || Route::currentRouteName()=='editprofile') ? 'active' : '' }}">
                                     <a href="{{ route('profile') }}">
                                         <i class="fa fa-user"></i> User Profile </a>
                                 </li>
@@ -36,6 +56,8 @@
                                     <a href="{{ route('setting') }}">
                                         <i class="fa fa-gear icon"></i> Settings </a>
                                 </li>
+                                @endif
+                                
                                 {{-- <li>
                                     <a href="">
                                         <i class="fa fa-th-large"></i> Items Manager
