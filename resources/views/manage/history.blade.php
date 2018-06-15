@@ -26,7 +26,7 @@
                                             <tr>
                                             <th>#</th> 
                                             <th>Domain</th> 
-                                            <th>Owner</th> 
+                                            <th>User</th> 
                                             <th>Email</th> 
                                             <th>Date</th> 
                                             <th>Action</th>  
@@ -37,10 +37,10 @@
                                             <tr>
                                             <td>{{ ++$key }}</td>    
                                             <td>{{ $result->web_domain }}</td>      
-                                            <td>{{ $result->whois_domain_owner }}</td>    
-                                            <td>{{ $result->whois_domain_email }}</td>    
+                                            <td>{{ $result->user()->get()->first()->username }}</td>    
+                                            <td>{{ $result->user()->get()->first()->email }}</td>    
                                             <td>{{ $result->created_at->format('d/m/Y H:i') }}</td>    
-                                            <td><a href="{{ route('result', $result) }}" class="btn btn-info btn-sm"><em class="fa fa-eye"></em> View</a> <button type="button" class="btn btn-danger btn-sm btn-confirm-delete" data-record-id="{{ $result->id }}"><em class="fa fa-trash-o"></em> Delete</button></td>    
+                                            <td><a href="{{ route('manage.result', $result) }}" class="btn btn-info btn-sm"><em class="fa fa-eye"></em> View</a> <button type="button" class="btn btn-danger btn-sm btn-confirm-delete" data-record-id="{{ $result->id }}"><em class="fa fa-trash-o"></em> Delete</button></td>    
                                             </tr>
                                         @endforeach
                                         </tbody>
@@ -61,7 +61,7 @@ $(function() {
   $(".btn-confirm-delete").on("click", function(e){
     var id = $(this).data('recordId');
     $('#modal-result-id').val(id);
-    $("#modal-delete-form").attr("action", "{{ route('result.delete') }}");
+    $("#modal-delete-form").attr("action", "{{ route('manage.deleteresult') }}");
     $('#modal-message').html('Are you sure want to delete this data?');
     $("#confirm-modal").modal('show');
   });

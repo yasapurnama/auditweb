@@ -11,7 +11,7 @@
                                         <i class="fa fa-home"></i> Dashboard </a>
                                 </li>
                                 @if (Auth::user()->role == 2)
-                                <li class="{{ (Route::currentRouteName()=='manage.history' || Route::currentRouteName()=='manage.users' || Route::currentRouteName()=='manage.usersedit') ? 'active open' : '' }}">
+                                <li class="{{ (Route::currentRouteName()=='manage.history' || Route::currentRouteName()=='manage.users' || Route::currentRouteName()=='manage.usersedit' || Route::currentRouteName() == 'manage.result') ? 'active open' : '' }}">
                                     <a href="">
                                         <i class="fa fa-th-large"></i> Management
                                         <i class="fa arrow"></i>
@@ -20,7 +20,7 @@
                                         <li class="{{ (Route::currentRouteName()=='manage.users' || Route::currentRouteName()=='manage.usersedit') ? 'active' : '' }}">
                                             <a href="{{ route('manage.users') }}"><i class="fa fa-users"></i> Users </a>
                                         </li>
-                                        <li class="{{ Route::currentRouteName()=='manage.history' ? 'active' : '' }}">
+                                        <li class="{{ (Route::currentRouteName()=='manage.history' || Route::currentRouteName() == 'manage.result') ? 'active' : '' }}">
                                             <a href="{{ route('manage.history') }}"><i class="fa fa-clock-o"></i> History </a>
                                         </li>
                                     </ul>

@@ -49,6 +49,8 @@ Route::middleware(['auth', 'user'])->group(function () {
     Route::group(['prefix' => 'manage', 'middleware' => 'admin'], function() {
         //History
         Route::get('/history', 'HistoryController@index')->name('manage.history');
+        Route::get('/history/{result}', 'HistoryController@show')->name('manage.result');
+        Route::post('/history/delete', 'HistoryController@destroy')->name('manage.deleteresult');
 
         //Users
         Route::get('/users', 'UsersController@index')->name('manage.users');

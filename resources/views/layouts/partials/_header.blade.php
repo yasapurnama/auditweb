@@ -7,7 +7,7 @@
                         <strong>
                             @if (Route::currentRouteName() == "scan" || Route::currentRouteName() == "history" || Route::currentRouteName() == "result")
                                 Website Auditor
-                            @elseif (Route::currentRouteName() == "manage.history")
+                            @elseif (Route::currentRouteName() == "manage.history" || Route::currentRouteName() == "manage.result")
                                 Management History
                             @elseif (Route::currentRouteName() == "manage.users" || Route::currentRouteName() == "manage.usersedit")
                                 Management Users

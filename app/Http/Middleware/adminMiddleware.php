@@ -23,6 +23,6 @@ class adminMiddleware
         else if (Auth::check() && Auth::user()->isAdmin()) {
             return $next($request);
         }
-        return redirect('/login');
+        return abort(404);
     }
 }

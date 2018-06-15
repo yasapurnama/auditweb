@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Download;
 use App\AuditResult;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,27 +21,6 @@ class HistoryController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  \App\AuditResult  $auditResult
@@ -48,30 +28,10 @@ class HistoryController extends Controller
      */
     public function show(AuditResult $auditResult)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\AuditResult  $auditResult
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(AuditResult $auditResult)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\AuditResult  $auditResult
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, AuditResult $auditResult)
-    {
-        //
+        $audit_results = $auditResult->get()->first();
+        $download = Download::where('audit_result_id',$audit_results->id)->first();
+        $token = $download->token;
+        return view('manage.history_show', compact('audit_results','token'));
     }
 
     /**
@@ -80,8 +40,20 @@ class HistoryController extends Controller
      * @param  \App\AuditResult  $auditResult
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AuditResult $auditResult)
+    public function destroy(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'data_id' => 'required|numeric'
+        ]);
+
+        $data_id = request('data_id');
+        $result = AuditResult::find($data_id);
+        if($result){
+            $result->delete();
+            return redirect()->route('manage.history')->with('status', 'Audit result deleted!');
+        }
+        else{
+            return redirect()->route('manage.history')->with('error', 'Delete audit result failed!');
+        }
     }
 }

@@ -28,11 +28,7 @@ class DownloadController extends Controller
      */
     public function download(Request $request, $result)
     {
-        if(Auth::check())
-        {
-            $audit_results = Auth::user()->audit_result->find($result);            
-        }
-        else if($request->has('token')){
+        if($request->has('token')){
             $download = Download::where('token',request('token'))->first();
             if(isset($download)){
                 $audit_results = $download->audit_result()->first();
@@ -40,6 +36,10 @@ class DownloadController extends Controller
             else{
                 return abort(404);
             }
+        }
+        else if(Auth::check())
+        {
+            $audit_results = Auth::user()->audit_result->find($result);            
         }
         else{
             return abort(404);
