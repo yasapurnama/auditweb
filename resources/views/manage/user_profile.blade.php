@@ -18,15 +18,23 @@
                                     @endif
                                     <div class="form-group">
                                         <label class="col-md-3 col-xs-3 align-top"><b>Username</b></label>
-                                        <label class="col-md-6">: {{ Auth::user()->username }}</label>
+                                        <label class="col-md-6">: {{ $user->username }}</label>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-3 col-xs-3 align-top"><b>Nama</b></label>
-                                        <label class="col-md-6">: {{ Auth::user()->name }}</label>
+                                        <label class="col-md-6">: {{ $user->name }}</label>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-3 col-xs-3 align-top"><b>Email</b></label>
-                                        <label class="col-md-6">: {{ Auth::user()->email }}</label>
+                                        <label class="col-md-6">: {{ $user->email }}</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 col-xs-3 align-top"><b>Role</b></label>
+                                        <label class="col-md-6">: {{ $user->role == 2 ? "Admin" : "User" }}</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 col-xs-3 align-top"><b>Status</b></label>
+                                        <label class="col-md-6">: {{ $user->status == 1 ? "Active" : "Disabled" }}</label>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-3 col-xs-3 align-top"><b>Password</b></label>
@@ -35,7 +43,7 @@
                                     </div>
                                     <div class="card-footer"> 
                                         <div class="pull-right">
-                                            <a class="btn btn-primary" href="{{ route('editprofile') }}"><em class="fa fa-edit"></em> Edit</a> 
+                                            <a class="btn btn-primary" href="{{ route('manage.useredit', $user) }}"><em class="fa fa-edit"></em> Edit</a> 
                                         </div>
                                     </div>
                                 </div>

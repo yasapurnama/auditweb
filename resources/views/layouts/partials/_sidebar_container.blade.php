@@ -11,17 +11,17 @@
                                         <i class="fa fa-home"></i> Dashboard </a>
                                 </li>
                                 @if (Auth::user()->role == 2)
-                                <li class="{{ (Route::currentRouteName()=='manage.history' || Route::currentRouteName()=='manage.users' || Route::currentRouteName()=='manage.usersedit' || Route::currentRouteName() == 'manage.result') ? 'active open' : '' }}">
+                                <li class="{{ (Route::currentRouteName()=='manage.history' || Route::currentRouteName()=='manage.users' || Route::currentRouteName()=='manage.userview' || Route::currentRouteName()=='manage.useredit' || Route::currentRouteName() == 'manage.result') ? 'active open' : '' }}">
                                     <a href="">
                                         <i class="fa fa-th-large"></i> Management
                                         <i class="fa arrow"></i>
                                     </a>
                                     <ul class="sidebar-nav">
-                                        <li class="{{ (Route::currentRouteName()=='manage.users' || Route::currentRouteName()=='manage.usersedit') ? 'active' : '' }}">
+                                        <li class="{{ Route::currentRouteName()=='manage.users' ? 'active' : '' }}">
                                             <a href="{{ route('manage.users') }}"><i class="fa fa-users"></i> Users </a>
                                         </li>
-                                        <li class="{{ (Route::currentRouteName()=='manage.history' || Route::currentRouteName() == 'manage.result') ? 'active' : '' }}">
-                                            <a href="{{ route('manage.history') }}"><i class="fa fa-clock-o"></i> History </a>
+                                        <li class="{{ Route::currentRouteName()=='manage.history' ? 'active' : '' }}">
+                                            <a href="{{ route('manage.history') }}"><i class="fa fa-bar-chart"></i> Audit Results </a>
                                         </li>
                                     </ul>
                                 </li>

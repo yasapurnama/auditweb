@@ -3,11 +3,11 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        @if (Route::currentRouteName() == "scan" || Route::currentRouteName() == "history" || Route::currentRouteName() == "result")
+        @if (Route::currentRouteName() == 'scan' || Route::currentRouteName() == 'history' || Route::currentRouteName() == 'result')
             <title> Website Auditor | Website Audit with Webscraping Technique </title>
-        @elseif (Route::currentRouteName() == "manage.history" || Route::currentRouteName() == "manage.result")
-            <title> Management History | Website Audit with Webscraping Technique </title>
-        @elseif (Route::currentRouteName() == "manage.users" || Route::currentRouteName() == "manage.usersedit")
+        @elseif (Route::currentRouteName() == 'manage.history' || Route::currentRouteName() == 'manage.result')
+            <title> Management Audit Results | Website Audit with Webscraping Technique </title>
+        @elseif (Route::currentRouteName() == 'manage.users' || Route::currentRouteName()=='manage.userview' || Route::currentRouteName()=='manage.useredit')
             <title> Management Users | Website Audit with Webscraping Technique </title>
         @else
             <title> {{ ucfirst(Route::currentRouteName()) }} | Website Audit with Webscraping Technique </title>
@@ -57,18 +57,16 @@
                 <ol class="new-breadcrumb">
                     {{-- <li class="breadcrumb-item"> Home</li> --}}
                     <li class="breadcrumb-item{{ Route::currentRouteName() == "dashboard" ? " active" : "" }}"><em class="fa fa-home"></em> Dashboard</li>
-                    @if (Route::currentRouteName() == "scan" || Route::currentRouteName() == "history" || Route::currentRouteName() == "result")
+                    @if (Route::currentRouteName() == 'scan' || Route::currentRouteName() == 'history' || Route::currentRouteName() == 'result')
                         <li class="breadcrumb-item">Website Auditor</li>
-                    @elseif (Route::currentRouteName() == "manage.history" || Route::currentRouteName() == "manage.users" || Route::currentRouteName() == "manage.usersedit" || Route::currentRouteName() == "manage.result")
+                    @elseif (Route::currentRouteName() == 'manage.history' || Route::currentRouteName() == 'manage.users' || Route::currentRouteName()=='manage.userview' || Route::currentRouteName()=='manage.useredit' || Route::currentRouteName() == 'manage.result')
                         <li class="breadcrumb-item">Management</li>
                     @endif
-                    @if (Route::currentRouteName() == "manage.history" || Route::currentRouteName() == "manage.result")
-                        <li class="breadcrumb-item active">History</li>
-                    @elseif (Route::currentRouteName() == "manage.users")
+                    @if (Route::currentRouteName() == 'manage.history' || Route::currentRouteName() == 'manage.result')
+                        <li class="breadcrumb-item active">Audit Results</li>
+                    @elseif (Route::currentRouteName() == 'manage.users' || Route::currentRouteName()=='manage.userview' || Route::currentRouteName()=='manage.useredit')
                         <li class="breadcrumb-item active">Users</li>
-                    @elseif (Route::currentRouteName() == "manage.usersedit")
-                        <li class="breadcrumb-item active">Users</li>
-                    @elseif (Route::currentRouteName() != "dashboard")
+                    @elseif (Route::currentRouteName() != 'dashboard')
                         <li class="breadcrumb-item active">{{ ucfirst(Route::currentRouteName()) }}</li>
                     @endif
                 </ol>

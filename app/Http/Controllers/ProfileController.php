@@ -35,18 +35,29 @@ class ProfileController extends Controller
      */
     public function update(Request $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|regex:/^[\pL\s\-]+$/u|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,'.Auth::user()->id,
-            'password' => 'required|string|min:8|confirmed'
-        ]);
-
         $user = Auth::user();
-        $user->update([
-            'name' => request('name'),
-            'email' => request('email'),
-            'password' => bcrypt(request('password')),
-        ]);
+        if($request->filled('password')){
+            $validatedData = $request->validate([
+                'name' => 'required|regex:/^[\pL\s\-]+$/u|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users,email,'.Auth::user()->id,
+                'password' => 'required|string|min:8|confirmed'
+            ]);
+            $user->update([
+                'name' => request('name'),
+                'email' => request('email'),
+                'password' => bcrypt(request('password')),
+            ]);
+        }
+        else{
+            $validatedData = $request->validate([
+                'name' => 'required|regex:/^[\pL\s\-]+$/u|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users,email,'.Auth::user()->id,
+            ]);
+            $user->update([
+                'name' => request('name'),
+                'email' => request('email'),
+            ]);
+        }
 
         return redirect(route('profile'))->with('message', 'Update profile success!');
     }

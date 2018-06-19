@@ -5,11 +5,11 @@
                     </div>
                     <div class="header-block header-block-search">
                         <strong>
-                            @if (Route::currentRouteName() == "scan" || Route::currentRouteName() == "history" || Route::currentRouteName() == "result")
+                            @if (Route::currentRouteName() == 'scan' || Route::currentRouteName() == 'history' || Route::currentRouteName() == 'result')
                                 Website Auditor
-                            @elseif (Route::currentRouteName() == "manage.history" || Route::currentRouteName() == "manage.result")
-                                Management History
-                            @elseif (Route::currentRouteName() == "manage.users" || Route::currentRouteName() == "manage.usersedit")
+                            @elseif (Route::currentRouteName() == 'manage.history' || Route::currentRouteName() == 'manage.result')
+                                Management Audit Results
+                            @elseif (Route::currentRouteName() == 'manage.users' || Route::currentRouteName()=='manage.userview' || Route::currentRouteName()=='manage.useredit')
                                 Management Users
                             @else
                                 {{ ucfirst(Route::currentRouteName()) }}
