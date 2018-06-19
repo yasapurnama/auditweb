@@ -47,7 +47,7 @@ class HistoryController extends Controller
         ]);
 
         $data_id = request('data_id');
-        $result = AuditResult::findOrFail($data_id);
+        $result = AuditResult::find($data_id);
         if($result){
             $result->delete();
             return redirect()->route('manage.history')->with('status', 'Audit result deleted!');

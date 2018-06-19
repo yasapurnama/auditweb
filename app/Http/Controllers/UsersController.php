@@ -99,7 +99,7 @@ class UsersController extends Controller
         ]);
 
         $data_id = request('data_id');
-        $user = User::findOrFail($data_id);
+        $user = User::find($data_id);
         if($user){
             $user->update([
                 'status' => 0,
