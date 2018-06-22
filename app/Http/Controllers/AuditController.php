@@ -1077,17 +1077,7 @@ class AuditController extends Controller
                 }
                 
             }
-            if($mx_record && (!$dmarc_record)){
-                $risk_medium += 1;
-                $audit_data['dmarc_needed'] = true;
-                $dmarc_info = "<font size=\"3\"><b>DMARC Record - </b></font><font size=\"3\" color=\"#FFE04F\"><b>Medium</b></font></br>".$dmarc_info;
-                $dmarc_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #FFE04F\">
-                    <b>Risk Level:</b> Medium<br/>
-                    Information: The undetectable DMARC Record shows the website has no email handling that is indicated as spam.<br/>
-                    Retrieved from: <a href=\"https://mxtoolbox.com/dmarc.aspx\" target=\"_blank\">https://mxtoolbox.com/dmarc.aspx</a><br/>
-                </div><br/>";
-            }
-            else if($dmarc_response){
+            if($dmarc_response){
                 $risk_info += 1;
                 $dmarc_info = "<font size=\"3\"><b>DMARC Record - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Informational</b></font></br>".$dmarc_info;
                 $dmarc_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #3B8AD5\">
@@ -1169,6 +1159,18 @@ class AuditController extends Controller
                     Information: The undetectable SPF Record shows the website does not have email sender checking of incoming email. This can cause email services to be vulnerable to spam email.<br/>
                     Retrieved from: <a href=\"https://mxtoolbox.com/spf.aspx\" target=\"_blank\">https://mxtoolbox.com/spf.aspx</a><br/>
                 </div><br/>";
+                if($mx_record && (!$dmarc_record)){
+                    $risk_medium += 1;
+                    $risk_info -= 1;
+                    $audit_data['dmarc_needed'] = true;
+                    $dmarc_info = "<font size=\"3\"><b>DMARC Record - </b></font><font size=\"3\" color=\"#FFE04F\"><b>Medium</b></font></br>".$dmarc_info;
+                    $dmarc_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #FFE04F\">
+                        <b>Risk Level:</b> Medium<br/>
+                        Information: The undetectable DMARC Record shows the website has no email handling that is indicated as spam.<br/>
+                        Retrieved from: <a href=\"https://mxtoolbox.com/dmarc.aspx\" target=\"_blank\">https://mxtoolbox.com/dmarc.aspx</a><br/>
+                    </div><br/>";
+                    $audit_data['dmarc_info'] = $dmarc_info;
+                }
             }
             else if($spf_response){
                 $risk_info += 1;
