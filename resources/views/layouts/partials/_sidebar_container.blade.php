@@ -40,7 +40,7 @@
                                             <a href="{{ route('scan') }}"><i class="fa fa-search"></i> Scan </a>
                                         </li>
                                         <li class="{{ Route::currentRouteName()=='history' ? 'active' : '' }}">
-                                            <a href="{{ route('history') }}"><i class="fa fa-clock-o"></i> History </a>
+                                            <a href="{{ route('history') }}"><i class="fa fa-history"></i> History </a>
                                         </li>
                                     </ul>
                                 </li>

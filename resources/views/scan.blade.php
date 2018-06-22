@@ -32,7 +32,7 @@
                                     </div>
                                     <div class="card-footer"> 
                                         <div class="pull-right">
-                                            <a href="{{ route('history') }}"><i class="fa fa-clock-o"></i> History</a> 
+                                            <a href="{{ route('history') }}"><i class="fa fa-history"></i> History</a> 
                                         </div>
                                     </div>
                                 </div>
