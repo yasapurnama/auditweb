@@ -201,6 +201,7 @@ class AuditController extends Controller
         $vuln_heartbleed = false;
         $ssl_expired = false;
         $ssl_response = false;
+        $ssl_nottrusted = false;
         $audit_data['ssl_heartbleed'] = false;
         $audit_data['ssl_expired'] = false;
         try {
@@ -310,6 +311,7 @@ class AuditController extends Controller
                                 $statustrust = '<img src="https://mxtoolbox.com/public/images/statusicons/warning.png" width="17">';
                                 break;
                             case 'error':
+                                $ssl_nottrusted = true;
                                 $statustrust = '<img src="https://mxtoolbox.com/public/images/statusicons/problem.png" width="17">';
                                 break;
                             default:
@@ -406,13 +408,13 @@ class AuditController extends Controller
                     Retrieved from: <a href=\"https://www.digicert.com/help/\" target=\"_blank\">https://www.digicert.com/help/</a><br/>
                 </div><br/>";
             }
-            else if($ssl_expired){
+            else if($ssl_expired || $ssl_nottrusted){
                 $risk_medium += 1;
                 $audit_data['ssl_expired'] = true;
                 $ssl_info = "<font size=\"3\"><b>SSL Certificate - </b></font><font size=\"3\" color=\"#FFE04F\"><b>Medium</b></font></br>".$ssl_info;
                 $ssl_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #FFE04F\">
                     <b>Risk Level:</b> Medium<br/>
-                    Information: An expired SSL certificate on a website will display an untrusted certificate warning in the browser. This can eliminate user trust when accessing the website.<br/>
+                    Information: Not trusted or expired SSL certificate on a website will display an untrusted certificate warning in the browser. This can eliminate user trust when accessing the website.<br/>
                     Retrieved from: <a href=\"https://www.digicert.com/help/\" target=\"_blank\">https://www.digicert.com/help/</a><br/>
                 </div><br/>";
             }
