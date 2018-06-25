@@ -4,13 +4,13 @@
                     <section class="section">
                         <div class="row sameheight-container">
                             <div class="col-md-6 col-sm-12">
+                                <form id="setting-form" action="{{ route('setting') }}" method="POST">
                                 <div class="card card-default">
                                     <div class="card-header">
                                         <div class="header-block">
                                             <p class="title"> Settings </p>
                                         </div>
                                     </div>
-                                    <form id="setting-form" action="{{ route('setting') }}" method="POST">
                                     <div class="card-block" style="padding: 10px 30px 30px 30px">
                                     @if (session('message'))
                                         <div class="alert alert-success">
@@ -59,8 +59,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    </form>
                                 </div>
+                                </form>
                             </div>
                         </div>
                     </section>

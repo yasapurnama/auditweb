@@ -26,7 +26,7 @@
                                                     {{ $errors->first('domain') }}
                                                 </span>
                                             @endif
-                                            <p class="text-center">E.g. exampleweb.com </p>
+                                            <p class="text-center">Example: testweb.com </p>
                                         </div>
                                     </form>
                                     </div>

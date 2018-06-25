@@ -7,7 +7,7 @@
                                 <div class="card card-default">
                                     <div class="card-header">
                                         <div class="header-block">
-                                            <p class="title"> User Profile </p>
+                                            <p class="title"> {{ Auth::user()->role == 2 ? "Admin" : "User" }} Profile </p>
                                         </div>
                                     </div>
                                     <div class="card-block">

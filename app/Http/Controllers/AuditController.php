@@ -27,7 +27,7 @@ class AuditController extends Controller
     public function __construct()
     {
         $this->guzzleConfig = [
-            'timeout' => 60,
+            'timeout' => 120,
             'verify' => false,
             'delay' => 500
             ];
