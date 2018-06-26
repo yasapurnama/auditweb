@@ -405,6 +405,7 @@ class AuditController extends Controller
                 $ssl_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #F45C51\">
                     <b>Risk Level:</b> High<br/>
                     Information: SSL certificates that are vulnerable to heartbleed attacks allow attackers to get information such as user login credentials, sessions, private key, etc from memory leak.<br/>
+                    More information: <a href=\"https://www.us-cert.gov/ncas/alerts/TA14-098A\" target=\"_blank\">https://www.us-cert.gov/ncas/alerts/TA14-098A</a><br/>
                     Retrieved from: <a href=\"https://www.digicert.com/help/\" target=\"_blank\">https://www.digicert.com/help/</a><br/>
                 </div><br/>";
             }
@@ -414,7 +415,7 @@ class AuditController extends Controller
                 $ssl_info = "<font size=\"3\"><b>SSL Certificate - </b></font><font size=\"3\" color=\"#FFE04F\"><b>Medium</b></font></br>".$ssl_info;
                 $ssl_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #FFE04F\">
                     <b>Risk Level:</b> Medium<br/>
-                    Information: Not trusted or expired SSL certificate on a website will display an untrusted certificate warning in the browser. This can eliminate user trust when accessing the website.<br/>
+                    Information: Not trusted or expired SSL certificate on a website will display an untrusted certificate warning in the browser. This can reduce the user's trust when accessing the website.<br/>
                     Retrieved from: <a href=\"https://www.digicert.com/help/\" target=\"_blank\">https://www.digicert.com/help/</a><br/>
                 </div><br/>";
             }
@@ -508,7 +509,7 @@ class AuditController extends Controller
                 $dns_info = "<font size=\"3\"><b>DNS Server - </b></font><font size=\"3\" color=\"#FFE04F\"><b>Medium</b></font></br>".$dns_info;
                 $dns_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #FFE04F\">
                     <b>Risk Level:</b> Medium<br/>
-                    Information: The problematic DNS status will be on the website. This may cause the domain address of the domain not accessible.<br/>
+                    Information: The problematic DNS status found on the website. This may cause the domain address of the domain not accessible.<br/>
                     Retrieved from: <a href=\"https://mxtoolbox.com/DNSCheck.aspx\" target=\"_blank\">https://mxtoolbox.com/DNSCheck.aspx</a><br/>
                 </div><br/>";
             }
@@ -730,6 +731,7 @@ class AuditController extends Controller
                 });
                 $whois_table = $crawler->filter('.tool-result-body .tool-result-body')->html();
                 $whois_table = str_replace('<tr class="full-width"></tr>', '', $whois_table);
+                $whois_table = preg_replace('/<tbody>(\r?\n){2,}<\/tbody>/', '', $whois_table);
                 $whois_info = "<div class=\"tool-result-body\">
                 <div class=\"table-responsive\">
                 $whois_table
@@ -741,7 +743,7 @@ class AuditController extends Controller
                 $whois_info = "<font size=\"3\"><b>WHOIS Record - </b></font><font size=\"3\" color=\"#FFE04F\"><b>Medium</b></font></br>".$whois_info;
                 $whois_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #FFE04F\">
                     <b>Risk Level:</b> Medium<br/>
-                    Information: Expired domain addresses may be re-ordered by others. This causes all traffic from the domain to be directed to the website of the new domain owner.<br/>
+                    Information: Expired domain addresses may be re-ordered by other people. This causes all traffic from the domain to be directed to the website of the new domain owner.<br/>
                     Retrieved from: <a href=\"https://mxtoolbox.com/Whois.aspx\" target=\"_blank\">https://mxtoolbox.com/Whois.aspx</a><br/>
                 </div><br/>";
             }
@@ -753,7 +755,7 @@ class AuditController extends Controller
                 $whois_info = "<font size=\"3\"><b>WHOIS Record - </b></font><font size=\"3\" color=\"#FFE04F\"><b>Medium</b></font></br>".$whois_info;
                 $whois_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #FFE04F\">
                     <b>Risk Level:</b> Medium<br/>
-                    Information: Registrant domain information or domain owners may be misused by an attacker such as spam to email the domain owner even with Social Enginering techniques the attacker can pretend to be the domain owner and ask the domain registrar to change the domain server's name.<br/>
+                    Information: Registrant domain information or domain owners may be misused by an attacker such as spam to email the domain owner, even with Social Enginering techniques the attacker can pretend to be the domain owner and ask the domain registrar to change the domain server's name.<br/>
                     Retrieved from: <a href=\"https://mxtoolbox.com/Whois.aspx\" target=\"_blank\">https://mxtoolbox.com/Whois.aspx</a><br/>
                 </div><br/>";
             }
@@ -811,9 +813,6 @@ class AuditController extends Controller
                   </tbody>
                 </table>
                 </div><br/>";
-                if($has_openresolver){
-                    $openresolver_info .= "More Info: <a target='_blank' href='https://www.us-cert.gov/ncas/alerts/TA13-088A'>https://www.us-cert.gov/ncas/alerts/TA13-088A</a><br/><br/>";
-                }
             }
             if($has_openresolver){
                 $risk_high += 1;
@@ -822,6 +821,7 @@ class AuditController extends Controller
                 $openresolver_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #F45C51\">
                     <b>Risk Level:</b> High<br/>
                     Information: Open DNS Resolver detected on the website indicates the website is vulnerable to DDoS attacks or DNS Aplifikaction Attack.<br/>
+                    More Information: <a target='_blank' href='https://www.us-cert.gov/ncas/alerts/TA13-088A'>https://www.us-cert.gov/ncas/alerts/TA13-088A</a><br/>
                     Retrieved from: <a href=\"http://openresolver.com/\" target=\"_blank\">http://openresolver.com/</a><br/>
                 </div><br/>";
             }
@@ -982,10 +982,6 @@ class AuditController extends Controller
                 $smtp_table
                 </div>
                 </div><br/>";
-                if($smtp_record && $has_openrelay){
-                    $smtp_info .= "More Info: <a target='_blank' href='https://www.cvedetails.com/cve/cve-1999-0512'>https://www.cvedetails.com/cve/cve-1999-0512</a><br/><br/>";
-                }
-                
             }
             if($smtp_record && $has_openrelay){
                 $risk_high += 1;
