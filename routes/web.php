@@ -22,9 +22,10 @@ Route::middleware(['auth', 'user'])->group(function () {
     //Web Auditor
     Route::get('/scan', 'AuditController@index')->name('scan');
     Route::post('/scan', 'AuditController@scan')->name('scan');
-    Route::get('/history', 'AuditController@history')->name('history');
-    Route::get('/history/{result}', 'AuditController@show')->name('result');
-    Route::post('/history/delete', 'AuditController@destroy')->name('result.delete');
+    
+    Route::get('/history', 'HistoryController@index')->name('history');
+    Route::get('/history/{result}', 'HistoryController@show')->name('result');
+    Route::post('/history/delete', 'HistoryController@destroy')->name('result.delete');
 
     //Notification
     Route::get('/notification', 'NotificationController@index')->name('notification');

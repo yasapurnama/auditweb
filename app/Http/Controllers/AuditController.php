@@ -47,50 +47,6 @@ class AuditController extends Controller
     }
 
     /**
-     * Show the selected history.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show($result)
-    {
-        $audit_results = Auth::user()->audit_result()->findOrFail($result);
-        return view('result', compact('audit_results'));
-    }
-
-    /**
-     * Show the application history.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function history()
-    {
-        $auditResults = Auth::user()->audit_result()->latest()->paginate(6);
-        return view('history', compact('auditResults'));
-    }
-
-    /**
-     * Delete history data.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request)
-    {
-        $validatedData = $request->validate([
-            'data_id' => 'required|numeric'
-        ]);
-
-        $data_id = request('data_id');
-        $result = Auth::user()->audit_result()->find($data_id);
-        if($result){
-            $result->delete();
-            return redirect()->route('history')->with('status', 'Audit result deleted!');
-        }
-        else{
-            return redirect()->route('history')->with('error', 'Delete audit result failed!');
-        }
-    }
-
-    /**
      * Start web scraping.
      *
      * @return \Illuminate\Http\Response

@@ -16,8 +16,14 @@ class HistoryController extends Controller
      */
     public function index()
     {
-        $auditResults = AuditResult::latest()->paginate(10);
-        return view('manage.history', compact('auditResults'));
+        if(Auth::user()->role == 1){
+            $auditResults = Auth::user()->audit_result()->latest()->paginate(6);
+            return view('history', compact('auditResults'));
+        }
+        else{
+            $auditResults = AuditResult::latest()->paginate(10);
+            return view('manage.history', compact('auditResults'));  
+        }
     }
 
     /**
@@ -26,12 +32,18 @@ class HistoryController extends Controller
      * @param  \App\AuditResult  $auditResult
      * @return \Illuminate\Http\Response
      */
-    public function show(AuditResult $auditResult)
+    public function show($result)
     {
-        $audit_results = $auditResult->get()->first();
-        $download = Download::where('audit_result_id',$audit_results->id)->first();
-        $token = $download->token;
-        return view('manage.history_show', compact('audit_results','token'));
+        if(Auth::user()->role == 1){
+            $audit_results = Auth::user()->audit_result()->findOrFail($result);
+            return view('result', compact('audit_results'));
+        }
+        else{
+            $audit_results = AuditResult::findOrFail($result);
+            $download = Download::where('audit_result_id',$audit_results->id)->first();
+            $token = $download->token;
+            return view('manage.history_show', compact('audit_results','token'));
+        }
     }
 
     /**
@@ -47,13 +59,26 @@ class HistoryController extends Controller
         ]);
 
         $data_id = request('data_id');
-        $result = AuditResult::find($data_id);
-        if($result){
-            $result->delete();
-            return redirect()->route('manage.history')->with('status', 'Audit result deleted!');
+        
+        if(Auth::user()->role == 1){
+            $result = Auth::user()->audit_result()->find($data_id);
+            if($result){
+                $result->delete();
+                return redirect()->route('history')->with('status', 'Audit result deleted!');
+            }
+            else{
+                return redirect()->route('history')->with('error', 'Delete audit result failed!');
+            }
         }
         else{
-            return redirect()->route('manage.history')->with('error', 'Delete audit result failed!');
+            $result = AuditResult::find($data_id);
+            if($result){
+                $result->delete();
+                return redirect()->route('manage.history')->with('status', 'Audit result deleted!');
+            }
+            else{
+                return redirect()->route('manage.history')->with('error', 'Delete audit result failed!');
+            }
         }
     }
 }
