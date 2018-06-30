@@ -38,7 +38,7 @@ Route::middleware(['auth', 'user'])->group(function () {
 
     //[User And Admin]
     //Dashboard
-    Route::get('/dashboard', 'HomeController@index')->name('dashboard');
+    Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
     //Profile
     Route::get('/profile', 'ProfileController@index')->name('profile');
