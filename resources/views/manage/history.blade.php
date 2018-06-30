@@ -7,7 +7,7 @@
                                 <div class="card card-default">
                                     <div class="card-header">
                                         <div class="header-block">
-                                            <p class="title"> Audit Results </p><span class="pull-right"></span>
+                                            <p class="title"> Audit History </p><span class="pull-right"></span>
                                         </div>
                                     </div>
                                     <div class="card-block" style="padding: 10px 30px 30px 30px">

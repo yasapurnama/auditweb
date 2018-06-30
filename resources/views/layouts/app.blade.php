@@ -6,7 +6,7 @@
         @if (Route::currentRouteName() == 'scan' || Route::currentRouteName() == 'history' || Route::currentRouteName() == 'result')
             <title> Website Auditor | Website Audit with Webscraping Technique </title>
         @elseif (Route::currentRouteName() == 'manage.history' || Route::currentRouteName() == 'manage.result')
-            <title> Management Audit Results | Website Audit with Webscraping Technique </title>
+            <title> Management Audit History | Website Audit with Webscraping Technique </title>
         @elseif (Route::currentRouteName() == 'manage.users' || Route::currentRouteName()=='manage.userview' || Route::currentRouteName()=='manage.useredit')
             <title> Management Users | Website Audit with Webscraping Technique </title>
         @else
@@ -63,7 +63,7 @@
                         <li class="breadcrumb-item">Management</li>
                     @endif
                     @if (Route::currentRouteName() == 'manage.history' || Route::currentRouteName() == 'manage.result')
-                        <li class="breadcrumb-item active">Audit Results</li>
+                        <li class="breadcrumb-item active">Audit History</li>
                     @elseif (Route::currentRouteName() == 'manage.users' || Route::currentRouteName()=='manage.userview' || Route::currentRouteName()=='manage.useredit')
                         <li class="breadcrumb-item active">Users</li>
                     @elseif (Route::currentRouteName() != 'dashboard')

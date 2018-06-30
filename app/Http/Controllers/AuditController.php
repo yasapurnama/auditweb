@@ -998,7 +998,7 @@ class AuditController extends Controller
                 $smtp_info = "<font size=\"3\"><b>SMTP Server Test - </b></font><font size=\"3\" color=\"#5ECA62\"><b>Low</b></font></br>".$smtp_info;
                 $smtp_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #5ECA62\">
                     <b>Risk Level:</b> Low<br/>
-                    Information: The slow SMTP Response Time indicates SMTP Server is not working optimally but in operation it is still working fine.<br/>
+                    Information: Slow SMTP Response Time indicates SMTP Server is not working optimally but in operation it is still working fine.<br/>
                     Retrieved from: <a href=\"https://mxtoolbox.com/diagnostic.aspx\" target=\"_blank\">https://mxtoolbox.com/diagnostic.aspx</a><br/>
                 </div><br/>";
             }

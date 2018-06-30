@@ -21,7 +21,7 @@
                                             <a href="{{ route('manage.users') }}"><i class="fa fa-users"></i> Users </a>
                                         </li>
                                         <li class="{{ Route::currentRouteName()=='manage.history' ? 'active' : '' }}">
-                                            <a href="{{ route('manage.history') }}"><i class="fa fa-bar-chart"></i> Audit Results </a>
+                                            <a href="{{ route('manage.history') }}"><i class="fa fa-bar-chart"></i> Audit History </a>
                                         </li>
                                     </ul>
                                 </li>
