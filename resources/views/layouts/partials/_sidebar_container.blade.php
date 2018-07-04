@@ -1,8 +1,9 @@
                         <div class="sidebar-header">
                             <div class="brand">
+                                <a href="{{ url('/') }}"> 
                                 <span class="new-logo">
                                     <img src="{{ asset('assets/logo.png') }}" width="30px">
-                                </span> Website Audit </div>
+                                </span> Website Audit </a></div>
                         </div>
                         <nav class="menu">
                             <ul class="sidebar-menu metismenu" id="sidebar-menu">
