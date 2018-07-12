@@ -95,12 +95,11 @@ class AuditController extends Controller
         ];
 
         // Simultaneous Request
-        /*
+        
         $promises = [
             'asn' => $client->getAsync('https://www.ultratools.com/tools/asnInfoResult?domainName='.$hostip, ['headers' => $header_asn]),
             'ssl' => $client->postAsync('https://www.digicert.com/api/check-host.php', ['headers' => $header_digicert, 'body' => "r=".rand(0, 1000)."&host=$domain&order_id="]),
             'heartbleed' => $client->postAsync('https://www.digicert.com/api/check-vuln.php', ['headers' => $header_digicert, 'body' => "r=".rand(0, 1000)."&host=$domain&order_id="]),
-            //'port' => $client->postAsync('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"scan:$domain\",\"resultIndex\":1}"]),
             'dns' => $client->postAsync('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"dns:$domain\",\"resultIndex\":1}"]),
             'cname' => $client->postAsync('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"cname:$domain\",\"resultIndex\":1}"]),
             'txt' => $client->postAsync('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"txt:$domain\",\"resultIndex\":1}"]),
@@ -118,7 +117,6 @@ class AuditController extends Controller
         $asn_result = new Response((string) $results['asn']['value']->getBody(), $results['asn']['value']->getStatusCode(), $results['asn']['value']->getHeaders());
         $ssl_result = new Response((string) $results['ssl']['value']->getBody(), $results['ssl']['value']->getStatusCode(), $results['ssl']['value']->getHeaders());
         $heartbleed_result = new Response((string) $results['heartbleed']['value']->getBody(), $results['heartbleed']['value']->getStatusCode(), $results['heartbleed']['value']->getHeaders());
-        //$port_result = new Response((string) $results['port']['value']->getBody(), $results['port']['value']->getStatusCode(), $results['port']['value']->getHeaders());
         $dns_result = new Response((string) $results['dns']['value']->getBody(), $results['dns']['value']->getStatusCode(), $results['dns']['value']->getHeaders());
         $cname_result = new Response((string) $results['cname']['value']->getBody(), $results['cname']['value']->getStatusCode(), $results['cname']['value']->getHeaders());
         $txt_result = new Response((string) $results['txt']['value']->getBody(), $results['txt']['value']->getStatusCode(), $results['txt']['value']->getHeaders());
@@ -132,7 +130,7 @@ class AuditController extends Controller
 
 
         // Squence Request
-        
+        /*
         $results = $client->get('https://www.ultratools.com/tools/asnInfoResult?domainName='.$hostip, ['headers' => $header_asn]);
         $asn_result = new Response((string) $results->getBody(), $results->getStatusCode(), $results->getHeaders());
         $results = $client->post('https://www.digicert.com/api/check-host.php', ['headers' => $header_digicert, 'body' => "r=".rand(0, 1000)."&host=$domain&order_id="]);
@@ -432,30 +430,6 @@ class AuditController extends Controller
         }
         $audit_data['ssl_info'] = $ssl_info;
 
-
-        //Parsing data port --removed 
-        /*
-        $port_info = "<font size=\"3\"><b>Open Ports and Services: No Results Found</b></font></br>";
-        try {
-            if($port_result->getStatus() == '200'){
-                $risk_info += 1;
-                $decode = json_decode($port_result->getContent(), true);
-                $decode = json_decode($decode["d"], true);
-                $crawler = new Crawler($decode["HTML_Value"]);
-                $port_table = $crawler->filter('.tool-result-body .tool-result-body')->html();
-                $port_info = "<font size=\"3\"><b>Open Ports and Services - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Information</b></font></br>
-                <div class=\"tool-result-body\">
-                <div class=\"table-responsive\">
-                $port_table
-                </div>
-                </div><br/>";
-            }
-        } catch (Exception $e) {
-            report($e);
-            $port_info = "<font size=\"3\"><b>Open Ports and Services: No Results Found</b></font></br>";
-        }
-        $audit_data['port_info'] = $port_info;
-        */
 
         //Parsing data dns
         $dns_info = "";
