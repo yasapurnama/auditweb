@@ -54,7 +54,7 @@ class AuditController extends Controller
     public function scan(Request $request)
     {
         $validatedData = $request->validate([
-            'domain' => 'required|regex:/^([a-z\d](-*[a-z\d])*)(\.([a-z\d](-*[a-z\d])*))*$/i|regex:/^.{1,253}$/|regex:/^[^\.]{1,63}(\.[^\.]{1,63})*$/'
+            'domain' => 'required|regex:/^(?!:\/\/)([a-zA-Z0-9-_]+\.)*[a-zA-Z0-9][a-zA-Z0-9-_]+\.[a-zA-Z]{2,11}?$/'
         ]);
         
         $domain = request('domain');
