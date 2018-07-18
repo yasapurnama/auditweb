@@ -20,9 +20,19 @@
       </td>
       <td rowspan="2" style="padding-bottom: 20px">
          <div class="flot-chart">
-            <font size="3"><b>Risk Chart</b></font>
+            <font size="3"><b>Risk Chart:</b></font>
             <div class="flot-chart-pie-content" id="flot-pie-chart"></div>
          </div>
+      </td>
+      <td rowspan="2" class="align-top" style="padding-top: 24px">
+          @php
+          $risk_all = $audit_results['risk_info']+$audit_results['risk_low']+$audit_results['risk_medium']+$audit_results['risk_high'];
+          @endphp
+          <b>All information:</b> {{ $risk_all }}<br />
+          {!! ($audit_results['risk_info'] >= 1) ? 'Informational: '.$audit_results['risk_info'].'<br />' : '' !!}
+          {!! ($audit_results['risk_low'] >= 1) ? 'Low: '.$audit_results['risk_low'].'<br />' : '' !!}
+          {!! ($audit_results['risk_medium'] >= 1) ? 'Medium: '.$audit_results['risk_medium'].'<br />' : '' !!}
+          {!! ($audit_results['risk_high'] >= 1) ? 'High: '.$audit_results['risk_high'].'<br />' : '' !!}
       </td>
    </tr>
    <tr>
