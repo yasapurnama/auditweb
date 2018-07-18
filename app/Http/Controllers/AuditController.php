@@ -693,6 +693,7 @@ class AuditController extends Controller
                 $whois_table = $crawler->filter('.tool-result-body .tool-result-body')->html();
                 $whois_table = str_replace('<tr class="full-width"></tr>', '', $whois_table);
                 $whois_table = preg_replace('/<tbody>(\r?\n){2,}<\/tbody>/', '', $whois_table);
+                $whois_table = preg_replace('/<tbody><\/tbody>/', '', $whois_table);
                 $whois_info = "<div class=\"tool-result-body\">
                 <div class=\"table-responsive\">
                 $whois_table
