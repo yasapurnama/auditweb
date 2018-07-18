@@ -271,7 +271,7 @@ Gaining website information made easy with Web Scraping Technique.</p>
 
 <footer class="landing-footer">
   <div class="text-center">
-    <small><a href="http://themes.3rdwavemedia.com/" target="_blank">Purnama Yasa</a> &copy; 2017 | Powered by Modular Admin Theme</small>
+    <small><a href="http://themes.3rdwavemedia.com/" target="_blank">Purnama Yasa</a> &copy; 2018 | Powered by Modular Admin Theme</small>
   </div><!--//container-->
 </footer><!--//footer-->
 

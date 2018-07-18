@@ -77,7 +77,7 @@
                 </article>
                 <footer class="footer">
                     <div class="footer-block author">
-                        <span class="text-center"><a href="http://themes.3rdwavemedia.com/" target="_blank">Purnama Yasa</a> &copy; 2017 | Powered by Modular Admin Theme</span>
+                        <span class="text-center"><a href="http://themes.3rdwavemedia.com/" target="_blank">Purnama Yasa</a> &copy; 2018 | Powered by Modular Admin Theme</span>
                     </div>
                 </footer>
 
