@@ -960,7 +960,7 @@ class AuditController extends Controller
                 $smtp_info = "<font size=\"3\"><b>SMTP Server Test - </b></font><font size=\"3\" color=\"#5ECA62\"><b>Low</b></font></br>".$smtp_info;
                 $smtp_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #5ECA62\">
                     <b>Risk Level:</b> Low<br/>
-                    Information: Slow SMTP Response Time indicates SMTP Server is not working optimally but in operation it is still working fine.<br/>
+                    Information: Slow SMTP Transaction Time indicates SMTP Server is not working optimally but in operation it is still working fine.<br/>
                     Retrieved from: <a href=\"https://mxtoolbox.com/diagnostic.aspx\" target=\"_blank\">https://mxtoolbox.com/diagnostic.aspx</a><br/>
                 </div><br/>";
             }
@@ -1037,17 +1037,6 @@ class AuditController extends Controller
                 }
                 
             }
-            if($dmarc_response){
-                $risk_info += 1;
-                $dmarc_info = "<font size=\"3\"><b>DMARC Record - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Informational</b></font></br>".$dmarc_info;
-                $dmarc_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #3B8AD5\">
-                    <b>Risk Level:</b> Informational<br/>
-                    Retrieved from: <a href=\"https://mxtoolbox.com/dmarc.aspx\" target=\"_blank\">https://mxtoolbox.com/dmarc.aspx</a><br/>
-                </div><br/>";
-            }
-            else{
-                $dmarc_info = "<font size=\"3\"><b>DMARC Record: No Results Found</b></font></br>";
-            }
         } catch (Exception $e) {
             report($e);
             $dmarc_info = "<font size=\"3\"><b>DMARC Record: No Results Found</b></font></br>";
@@ -1121,7 +1110,7 @@ class AuditController extends Controller
                 </div><br/>";
                 if($mx_record && (!$dmarc_record)){
                     $risk_medium += 1;
-                    $risk_info -= 1;
+                    $dmarc_response = false;
                     $audit_data['dmarc_needed'] = true;
                     $dmarc_info = "<font size=\"3\"><b>DMARC Record - </b></font><font size=\"3\" color=\"#FFE04F\"><b>Medium</b></font></br>".$dmarc_info;
                     $dmarc_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #FFE04F\">
@@ -1142,6 +1131,18 @@ class AuditController extends Controller
             }
             else{
                 $spf_info = "<font size=\"3\"><b>SPF Record: No Results Found</b></font></br>";
+            }
+
+            if($dmarc_response){
+                $risk_info += 1;
+                $dmarc_info = "<font size=\"3\"><b>DMARC Record - </b></font><font size=\"3\" color=\"#3B8AD5\"><b>Informational</b></font></br>".$dmarc_info;
+                $dmarc_info .= "<div style=\"margin-left: 20px; padding: 10px; border-left: 4px solid #3B8AD5\">
+                    <b>Risk Level:</b> Informational<br/>
+                    Retrieved from: <a href=\"https://mxtoolbox.com/dmarc.aspx\" target=\"_blank\">https://mxtoolbox.com/dmarc.aspx</a><br/>
+                </div><br/>";
+            }
+            else if(!$audit_data['dmarc_needed']){
+                $dmarc_info = "<font size=\"3\"><b>DMARC Record: No Results Found</b></font></br>";
             }
         } catch (Exception $e) {
             report($e);
