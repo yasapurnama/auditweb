@@ -22,30 +22,42 @@ Host IP: {{ isset($audit_results['host_ip']) ? $audit_results['host_ip'] : '' }}
     @endphp
 
     <b>Audit Conclusions:</b><br/>
-    <table>
-        <tr>
-            <td>
-                <ul>
-                    <li>Informational</li>
-                    <li>Low</li>
-                    <li>Medium</li>
-                    <li>High</li>
-                </ul>
-            </td>
-            <td>
-                : {{ $audit_results['risk_info']." / ".$risk_all." x 100%" }}<br />
-                : {{ $audit_results['risk_low']." / ".$risk_all." x 100%" }}<br />
-                : {{ $audit_results['risk_medium']." / ".$risk_all." x 100%" }}<br />
-                : {{ $audit_results['risk_high']." / ".$risk_all." x 100%" }}<br />
-            </td>
-            <td>
-                {{ "= ".round(($audit_results['risk_info']/$risk_all*100))."%" }}<br />
-                {{ "= ".round(($audit_results['risk_low']/$risk_all*100))."%" }}<br />
-                {{ "= ".round(($audit_results['risk_medium']/$risk_all*100))."%" }}<br />
-                {{ "= ".round(($audit_results['risk_high']/$risk_all*100))."%" }}<br />
-            </td>
-        </tr>
-    </table> 
+    <div id="conclusion" style="padding-left:20px">
+        <ul>
+        <li><b>All information:</b> {{ $risk_all }}</li>
+        {!! ($audit_results['risk_info'] >= 1) ? '<li>Informational: '.$audit_results['risk_info'].'</li>' : '' !!}
+        {!! ($audit_results['risk_low'] >= 1) ? '<li>Low: '.$audit_results['risk_low'].'</li>' : '' !!}
+        {!! ($audit_results['risk_medium'] >= 1) ? '<li>Medium: '.$audit_results['risk_medium'].'</li>' : '' !!}
+        {!! ($audit_results['risk_high'] >= 1) ? '<li>High: '.$audit_results['risk_high'].'</li>' : '' !!}
+        </ul>
+        <br />
+        Percentage:
+        <table>
+            <tr>
+                <td>
+                    <ul>
+                        <li>Informational</li>
+                        <li>Low</li>
+                        <li>Medium</li>
+                        <li>High</li>
+                    </ul>
+                </td>
+                <td>
+                    : {{ $audit_results['risk_info']." / ".$risk_all." x 100%" }}<br />
+                    : {{ $audit_results['risk_low']." / ".$risk_all." x 100%" }}<br />
+                    : {{ $audit_results['risk_medium']." / ".$risk_all." x 100%" }}<br />
+                    : {{ $audit_results['risk_high']." / ".$risk_all." x 100%" }}<br />
+                </td>
+                <td>
+                    {{ "= ".round(($audit_results['risk_info']/$risk_all*100))."%" }}<br />
+                    {{ "= ".round(($audit_results['risk_low']/$risk_all*100))."%" }}<br />
+                    {{ "= ".round(($audit_results['risk_medium']/$risk_all*100))."%" }}<br />
+                    {{ "= ".round(($audit_results['risk_high']/$risk_all*100))."%" }}<br />
+                </td>
+            </tr>
+        </table>
+    </div>
+     
 @endif
 
 <br/>
