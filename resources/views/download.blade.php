@@ -21,7 +21,7 @@ Host IP: {{ isset($audit_results['host_ip']) ? $audit_results['host_ip'] : '' }}
     $risk_all = $audit_results['risk_info']+$audit_results['risk_low']+$audit_results['risk_medium']+$audit_results['risk_high'];
     @endphp
 
-    <b>Risk Calculation:</b><br/>
+    <b>Audit Conclusions:</b><br/>
     <table>
         <tr>
             <td>
