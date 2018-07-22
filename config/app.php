@@ -43,6 +43,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Simultanous Request
+    |--------------------------------------------------------------------------
+    |
+    | When your application is in simultanous request, 
+    | application will send multiple request at same time.
+    | If disabled, application will use squence request.
+    |
+    */
+
+    'simultanous' => env('APP_SIMULTANOUS', true),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application URL
     |--------------------------------------------------------------------------
     |

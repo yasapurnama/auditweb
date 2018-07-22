@@ -94,68 +94,69 @@ class AuditController extends Controller
             'Referer' => 'http://openresolver.com/'
         ];
 
-        // Simultaneous Request
-        
-        $promises = [
-            'asn' => $client->getAsync('https://www.ultratools.com/tools/asnInfoResult?domainName='.$hostip, ['headers' => $header_asn]),
-            'ssl' => $client->postAsync('https://www.digicert.com/api/check-host.php', ['headers' => $header_digicert, 'body' => "r=".rand(0, 1000)."&host=$domain&order_id="]),
-            'heartbleed' => $client->postAsync('https://www.digicert.com/api/check-vuln.php', ['headers' => $header_digicert, 'body' => "r=".rand(0, 1000)."&host=$domain&order_id="]),
-            'dns' => $client->postAsync('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"dns:$domain\",\"resultIndex\":1}"]),
-            'cname' => $client->postAsync('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"cname:$domain\",\"resultIndex\":1}"]),
-            'txt' => $client->postAsync('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"txt:$domain\",\"resultIndex\":1}"]),
-            'whois' => $client->postAsync('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"whois:$domain\",\"resultIndex\":1}"]),
-            'openresolver' => $client->getAsync('http://openresolver.com/?ip='.$domain, ['headers' => $header_openresolver]),
-            'mx' => $client->postAsync('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"mx:$domain\",\"resultIndex\":1}"]),
-            'smtp' => $client->postAsync('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"smtp:$domain\",\"resultIndex\":1}"]),
-            'dmarc' => $client->postAsync('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"dmarc:$domain\",\"resultIndex\":1}"]),
-            'spf' => $client->postAsync('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"spf:$domain\",\"resultIndex\":1}"]),
-        ];
 
-        $results = GuzzlePromise\unwrap($promises);
-        $results = GuzzlePromise\settle($promises)->wait();
+        if (\Config::get('app.simultanous')) {
+            // Simultaneous Request
+            $promises = [
+                'asn' => $client->getAsync('https://www.ultratools.com/tools/asnInfoResult?domainName='.$hostip, ['headers' => $header_asn]),
+                'ssl' => $client->postAsync('https://www.digicert.com/api/check-host.php', ['headers' => $header_digicert, 'body' => "r=".rand(0, 1000)."&host=$domain&order_id="]),
+                'heartbleed' => $client->postAsync('https://www.digicert.com/api/check-vuln.php', ['headers' => $header_digicert, 'body' => "r=".rand(0, 1000)."&host=$domain&order_id="]),
+                'dns' => $client->postAsync('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"dns:$domain\",\"resultIndex\":1}"]),
+                'cname' => $client->postAsync('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"cname:$domain\",\"resultIndex\":1}"]),
+                'txt' => $client->postAsync('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"txt:$domain\",\"resultIndex\":1}"]),
+                'whois' => $client->postAsync('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"whois:$domain\",\"resultIndex\":1}"]),
+                'openresolver' => $client->getAsync('http://openresolver.com/?ip='.$domain, ['headers' => $header_openresolver]),
+                'mx' => $client->postAsync('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"mx:$domain\",\"resultIndex\":1}"]),
+                'smtp' => $client->postAsync('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"smtp:$domain\",\"resultIndex\":1}"]),
+                'dmarc' => $client->postAsync('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"dmarc:$domain\",\"resultIndex\":1}"]),
+                'spf' => $client->postAsync('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"spf:$domain\",\"resultIndex\":1}"]),
+            ];
 
-        $asn_result = new Response((string) $results['asn']['value']->getBody(), $results['asn']['value']->getStatusCode(), $results['asn']['value']->getHeaders());
-        $ssl_result = new Response((string) $results['ssl']['value']->getBody(), $results['ssl']['value']->getStatusCode(), $results['ssl']['value']->getHeaders());
-        $heartbleed_result = new Response((string) $results['heartbleed']['value']->getBody(), $results['heartbleed']['value']->getStatusCode(), $results['heartbleed']['value']->getHeaders());
-        $dns_result = new Response((string) $results['dns']['value']->getBody(), $results['dns']['value']->getStatusCode(), $results['dns']['value']->getHeaders());
-        $cname_result = new Response((string) $results['cname']['value']->getBody(), $results['cname']['value']->getStatusCode(), $results['cname']['value']->getHeaders());
-        $txt_result = new Response((string) $results['txt']['value']->getBody(), $results['txt']['value']->getStatusCode(), $results['txt']['value']->getHeaders());
-        $whois_result = new Response((string) $results['whois']['value']->getBody(), $results['whois']['value']->getStatusCode(), $results['whois']['value']->getHeaders());
-        $openresolver_result = new Response((string) $results['openresolver']['value']->getBody(), $results['openresolver']['value']->getStatusCode(), $results['openresolver']['value']->getHeaders());
-        $mx_result = new Response((string) $results['mx']['value']->getBody(), $results['mx']['value']->getStatusCode(), $results['mx']['value']->getHeaders());
-        $smtp_result = new Response((string) $results['smtp']['value']->getBody(), $results['smtp']['value']->getStatusCode(), $results['smtp']['value']->getHeaders());
-        $dmarc_result = new Response((string) $results['dmarc']['value']->getBody(), $results['dmarc']['value']->getStatusCode(), $results['dmarc']['value']->getHeaders());
-        $spf_result = new Response((string) $results['spf']['value']->getBody(), $results['spf']['value']->getStatusCode(), $results['spf']['value']->getHeaders());
-        /**/
+            $results = GuzzlePromise\unwrap($promises);
+            $results = GuzzlePromise\settle($promises)->wait();
 
-
-        // Squence Request
-        /*
-        $results = $client->get('https://www.ultratools.com/tools/asnInfoResult?domainName='.$hostip, ['headers' => $header_asn]);
-        $asn_result = new Response((string) $results->getBody(), $results->getStatusCode(), $results->getHeaders());
-        $results = $client->post('https://www.digicert.com/api/check-host.php', ['headers' => $header_digicert, 'body' => "r=".rand(0, 1000)."&host=$domain&order_id="]);
-        $ssl_result = new Response((string) $results->getBody(), $results->getStatusCode(), $results->getHeaders());
-        $results = $client->post('https://www.digicert.com/api/check-vuln.php', ['headers' => $header_digicert, 'body' => "r=".rand(0, 1000)."&host=$domain&order_id="]);
-        $heartbleed_result = new Response((string) $results->getBody(), $results->getStatusCode(), $results->getHeaders());
-        $results = $client->post('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"dns:$domain\",\"resultIndex\":1}"]);
-        $dns_result = new Response((string) $results->getBody(), $results->getStatusCode(), $results->getHeaders());
-        $results = $client->post('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"cname:$domain\",\"resultIndex\":1}"]);
-        $cname_result = new Response((string) $results->getBody(), $results->getStatusCode(), $results->getHeaders());
-        $results = $client->post('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"txt:$domain\",\"resultIndex\":1}"]);
-        $txt_result = new Response((string) $results->getBody(), $results->getStatusCode(), $results->getHeaders());
-        $results = $client->post('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"whois:$domain\",\"resultIndex\":1}"]);
-        $whois_result = new Response((string) $results->getBody(), $results->getStatusCode(), $results->getHeaders());
-        $results = $client->get('http://openresolver.com/?ip='.$domain, ['headers' => $header_openresolver]);
-        $openresolver_result = new Response((string) $results->getBody(), $results->getStatusCode(), $results->getHeaders());
-        $results = $client->post('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"mx:$domain\",\"resultIndex\":1}"]);
-        $mx_result = new Response((string) $results->getBody(), $results->getStatusCode(), $results->getHeaders());
-        $results = $client->post('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"smtp:$domain\",\"resultIndex\":1}"]);
-        $smtp_result = new Response((string) $results->getBody(), $results->getStatusCode(), $results->getHeaders());
-        $results = $client->post('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"dmarc:$domain\",\"resultIndex\":1}"]);
-        $dmarc_result = new Response((string) $results->getBody(), $results->getStatusCode(), $results->getHeaders());
-        $results = $client->post('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"spf:$domain\",\"resultIndex\":1}"]);
-        $spf_result = new Response((string) $results->getBody(), $results->getStatusCode(), $results->getHeaders());
-        /**/
+            $asn_result = new Response((string) $results['asn']['value']->getBody(), $results['asn']['value']->getStatusCode(), $results['asn']['value']->getHeaders());
+            $ssl_result = new Response((string) $results['ssl']['value']->getBody(), $results['ssl']['value']->getStatusCode(), $results['ssl']['value']->getHeaders());
+            $heartbleed_result = new Response((string) $results['heartbleed']['value']->getBody(), $results['heartbleed']['value']->getStatusCode(), $results['heartbleed']['value']->getHeaders());
+            $dns_result = new Response((string) $results['dns']['value']->getBody(), $results['dns']['value']->getStatusCode(), $results['dns']['value']->getHeaders());
+            $cname_result = new Response((string) $results['cname']['value']->getBody(), $results['cname']['value']->getStatusCode(), $results['cname']['value']->getHeaders());
+            $txt_result = new Response((string) $results['txt']['value']->getBody(), $results['txt']['value']->getStatusCode(), $results['txt']['value']->getHeaders());
+            $whois_result = new Response((string) $results['whois']['value']->getBody(), $results['whois']['value']->getStatusCode(), $results['whois']['value']->getHeaders());
+            $openresolver_result = new Response((string) $results['openresolver']['value']->getBody(), $results['openresolver']['value']->getStatusCode(), $results['openresolver']['value']->getHeaders());
+            $mx_result = new Response((string) $results['mx']['value']->getBody(), $results['mx']['value']->getStatusCode(), $results['mx']['value']->getHeaders());
+            $smtp_result = new Response((string) $results['smtp']['value']->getBody(), $results['smtp']['value']->getStatusCode(), $results['smtp']['value']->getHeaders());
+            $dmarc_result = new Response((string) $results['dmarc']['value']->getBody(), $results['dmarc']['value']->getStatusCode(), $results['dmarc']['value']->getHeaders());
+            $spf_result = new Response((string) $results['spf']['value']->getBody(), $results['spf']['value']->getStatusCode(), $results['spf']['value']->getHeaders());
+            
+        }
+        else{
+            // Squence Request
+            $results = $client->get('https://www.ultratools.com/tools/asnInfoResult?domainName='.$hostip, ['headers' => $header_asn]);
+            $asn_result = new Response((string) $results->getBody(), $results->getStatusCode(), $results->getHeaders());
+            $results = $client->post('https://www.digicert.com/api/check-host.php', ['headers' => $header_digicert, 'body' => "r=".rand(0, 1000)."&host=$domain&order_id="]);
+            $ssl_result = new Response((string) $results->getBody(), $results->getStatusCode(), $results->getHeaders());
+            $results = $client->post('https://www.digicert.com/api/check-vuln.php', ['headers' => $header_digicert, 'body' => "r=".rand(0, 1000)."&host=$domain&order_id="]);
+            $heartbleed_result = new Response((string) $results->getBody(), $results->getStatusCode(), $results->getHeaders());
+            $results = $client->post('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"dns:$domain\",\"resultIndex\":1}"]);
+            $dns_result = new Response((string) $results->getBody(), $results->getStatusCode(), $results->getHeaders());
+            $results = $client->post('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"cname:$domain\",\"resultIndex\":1}"]);
+            $cname_result = new Response((string) $results->getBody(), $results->getStatusCode(), $results->getHeaders());
+            $results = $client->post('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"txt:$domain\",\"resultIndex\":1}"]);
+            $txt_result = new Response((string) $results->getBody(), $results->getStatusCode(), $results->getHeaders());
+            $results = $client->post('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"whois:$domain\",\"resultIndex\":1}"]);
+            $whois_result = new Response((string) $results->getBody(), $results->getStatusCode(), $results->getHeaders());
+            $results = $client->get('http://openresolver.com/?ip='.$domain, ['headers' => $header_openresolver]);
+            $openresolver_result = new Response((string) $results->getBody(), $results->getStatusCode(), $results->getHeaders());
+            $results = $client->post('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"mx:$domain\",\"resultIndex\":1}"]);
+            $mx_result = new Response((string) $results->getBody(), $results->getStatusCode(), $results->getHeaders());
+            $results = $client->post('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"smtp:$domain\",\"resultIndex\":1}"]);
+            $smtp_result = new Response((string) $results->getBody(), $results->getStatusCode(), $results->getHeaders());
+            $results = $client->post('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"dmarc:$domain\",\"resultIndex\":1}"]);
+            $dmarc_result = new Response((string) $results->getBody(), $results->getStatusCode(), $results->getHeaders());
+            $results = $client->post('https://mxtoolbox.com/Public/Lookup.aspx/DoLookup2', ['headers' => $header_mx, 'body' => "{\"inputText\":\"spf:$domain\",\"resultIndex\":1}"]);
+            $spf_result = new Response((string) $results->getBody(), $results->getStatusCode(), $results->getHeaders());
+            
+        }
         
         //Parsing data asn
         $asn_info = "<font size=\"3\"><b>ASN Information: No Results Found</b></font></br>";
