@@ -64,7 +64,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="customize-item">
+                                        {{-- <div class="customize-item">
                                             <ul class="customize-colors">
                                                 <li>
                                                     <span class="color-item color-red" data-theme="red"></span>
@@ -85,10 +85,10 @@
                                                     <span class="color-item color-purple" data-theme="purple"></span>
                                                 </li>
                                             </ul>
-                                        </div>
+                                        </div> --}}
                                     </li>
                                 </ul>
-                                <a href="">
-                                    <i class="fa fa-cog"></i> Customize </a>
+                                {{-- <a href="">
+                                    <i class="fa fa-cog"></i> Customize </a> --}}
                             </li>
                         </ul>
