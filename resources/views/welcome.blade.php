@@ -64,7 +64,6 @@
     <div class="container text-center">
         <div id="text-2" class="widget widget_text"><h1 class="homepage-title">Website Audit</h1>
         <div class="textwidget"><h5 class="thin">Implemented with Web Scraping Technique Using PHP Programming Language</h5>
-            {{-- <a class="btn btn-primary btn-cta" href="#" target="_blank"><i class="fa fa-cloud-download"></i> Download Now</a> --}}
         </div>
         <a href="{{ route('scan') }}" class="btn btn-primary btn-lg">Get Started <em class="fa fa-play-circle"></em></a>
         </div>  
@@ -82,7 +81,6 @@ Gaining website information made easy with Web Scraping Technique.</p>
                             </div><!--//icon-holder-->
                             <h3 class="title">Audit Website</h3>
                             <p class="intro">Audit website basic meta data and informations</p>
-                            {{-- <a class="link" href="start.html"><span></span></a> --}}
                         </div><!--//item-inner-->
                     </div><!--//item-->
                     <div class="item item-pink item-2 col-md-4 col-sm-6 col-xs-6">
@@ -92,7 +90,6 @@ Gaining website information made easy with Web Scraping Technique.</p>
                             </div><!--//icon-holder-->
                             <h3 class="title">Quick Result</h3>
                             <p class="intro">Website audit is made automatically with web scraping technique</p>
-                            {{-- <a class="link" href="components.html"><span></span></a> --}}
                         </div><!--//item-inner-->
                     </div><!--//item-->
                     <div class="item item-blue col-md-4 col-sm-6 col-xs-6">
@@ -102,39 +99,8 @@ Gaining website information made easy with Web Scraping Technique.</p>
                             </div><!--//icon-holder-->
                             <h3 class="title">Inbox</h3>
                             <p class="intro">Website audit report is sent to your inbox</p>
-                            {{-- <a class="link" href="charts.html"><span></span></a> --}}
                         </div><!--//item-inner-->
                     </div><!--//item-->
-                    {{-- <div class="item item-purple col-md-4 col-sm-6 col-xs-6">
-                        <div class="item-inner" style="height: 258px;">
-                            <div class="icon-holder">
-                                <span aria-hidden="true" class="icon icon_lifesaver"></span>
-                            </div><!--//icon-holder-->
-                            <h3 class="title">FAQs</h3>
-                            <p class="intro">Layout for FAQ page. Lorem ipsum dolor sit amet, consectetuer adipiscing elit</p>
-                            <a class="link" href="faqs.html"><span></span></a>
-                        </div><!--//item-inner-->
-                    </div><!--//item-->
-                    <div class="item item-primary col-md-4 col-sm-6 col-xs-6">
-                        <div class="item-inner" style="height: 258px;">
-                            <div class="icon-holder">
-                                <span aria-hidden="true" class="icon icon_genius"></span>
-                            </div><!--//icon-holder-->
-                            <h3 class="title">Showcase</h3>
-                            <p class="intro">Layout for showcase page. Lorem ipsum dolor sit amet, consectetuer adipiscing elit </p>
-                            <a class="link" href="showcase.html"><span></span></a>
-                        </div><!--//item-inner-->
-                    </div><!--//item-->
-                    <div class="item item-orange col-md-4 col-sm-6 col-xs-6">
-                        <div class="item-inner" style="height: 258px;">
-                            <div class="icon-holder">
-                                <span aria-hidden="true" class="icon icon_gift"></span>
-                            </div><!--//icon-holder-->
-                            <h3 class="title">License &amp; Credits</h3>
-                            <p class="intro">Layout for license &amp; credits page. Consectetuer adipiscing elit.</p>
-                            <a class="link" href="license.html"><span></span></a>
-                        </div><!--//item-inner-->
-                    </div><!--//item--> --}}
                 </div>
 </div>
 

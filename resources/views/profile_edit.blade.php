@@ -78,9 +78,5 @@
                             </div>
                         </div>
                     </section>
-                    {{-- <div class="title-block">
-                        <center><h3 class="title"> Hallo {{ Auth::user()->name }}, </h3>
-                        <p class="title-description"> Welcome to profile page! </p></center>
-                    </div> --}}
 
 @endsection

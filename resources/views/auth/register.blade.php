@@ -57,14 +57,6 @@
             </div>
         </div>
     </div>
-    {{-- <div class="form-group">
-        <label for="agree">
-            <input class="checkbox" name="agree" id="agree" type="checkbox" required="">
-            <span>Agree the terms and
-                <a href="#">policy</a>
-            </span>
-        </label>
-    </div> --}}
     <div class="form-group">
         <button type="submit" class="btn btn-block btn-primary">Sign Up</button>
     </div>
