@@ -67,8 +67,6 @@ class AuditController extends Controller
         $audit_data['web_domain'] = $domain;
         $audit_data['host_ip'] = $hostip;
 
-
-        //asyncRequest
         $client = new GuzzleClient($this->guzzleConfig);
 
         $header_asn = [
@@ -1154,9 +1152,6 @@ class AuditController extends Controller
         }
         $audit_data['spf_info'] = $spf_info;
 
-
-        //$risk_high += 1;
-        //save risk
         $audit_data['risk_info'] = $risk_info;
         $audit_data['risk_low'] = $risk_low;
         $audit_data['risk_medium'] = $risk_medium;
@@ -1172,7 +1167,6 @@ class AuditController extends Controller
             'ssl_info' => $audit_data['ssl_info'],
             'ssl_expired' => $audit_data['ssl_expired'],
             'ssl_heartbleed' => $audit_data['ssl_heartbleed'],
-            //'port_info' => $audit_data['port_info'],
             'dns_info' => $audit_data['dns_info'],
             'cname_info' => $audit_data['cname_info'],
             'txt_info' => $audit_data['txt_info'],
@@ -1203,7 +1197,7 @@ class AuditController extends Controller
             event(new AuditResultCreated($audit_results, $isSendOwner));
         }
 
-        //send result
+        //show result
         return view('result', compact('audit_results'));
     }
 }
