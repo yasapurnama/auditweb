@@ -1142,6 +1142,7 @@ class AuditController extends Controller
                     <b>Risk Level:</b> Informational<br/>
                     Retrieved from: <a href=\"https://mxtoolbox.com/dmarc.aspx\" target=\"_blank\">https://mxtoolbox.com/dmarc.aspx</a><br/>
                 </div><br/>";
+                $audit_data['dmarc_info'] = $dmarc_info;
             }
             else if(!$audit_data['dmarc_needed']){
                 $dmarc_info = "<font size=\"3\"><b>DMARC Record: No Results Found</b></font></br>";
