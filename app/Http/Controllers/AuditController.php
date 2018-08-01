@@ -940,7 +940,7 @@ class AuditController extends Controller
                 $smtp_table = str_replace('<td colspan="4">', '<td colspan="3">', $smtp_table);
                 $smtp_record = !str_contains($smtp_table, 'Failed To Connect');
                 $has_openrelay = !str_contains($smtp_table, 'Not an open relay');
-                $smtp_warning = str_contains($smtp_table, 'Not good! on Transaction Time');
+                $smtp_warning = str_contains($smtp_table, 'Not good on Transaction Time');
                 $smtp_info = "<div class=\"tool-result-body\">
                 <div class=\"table-responsive\">
                 $smtp_table
