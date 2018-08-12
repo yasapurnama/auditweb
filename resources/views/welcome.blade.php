@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title> Implementation of Website Security Audit with Webscraping Technique </title>
+    <title> Implementation of Website Security Tools with Webscraping Technique </title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon" />
@@ -62,8 +62,8 @@
 
 <div class="homepage-banner bg-primary" role="">
     <div class="container text-center">
-        <div id="text-2" class="widget widget_text"><h1 class="homepage-title">Website Audit</h1>
-        <div class="textwidget"><h5 class="thin">Implemented with Web Scraping Technique Using PHP Programming Language</h5>
+        <div id="text-2" class="widget widget_text"><h1 class="homepage-title">Website Security</h1>
+        <div class="textwidget"><h5 class="thin">Computer Aid Auditing Tools Implemented with Web Scraping Technique</h5>
         </div>
         <a href="{{ route('scan') }}" class="btn btn-primary btn-lg">Get Started <em class="fa fa-play-circle"></em></a>
         </div>  
@@ -106,7 +106,7 @@ Gaining website information made easy with Web Scraping Technique.</p>
 
 <footer class="landing-footer">
   <div class="text-center">
-    <small><a href="http://themes.3rdwavemedia.com/" target="_blank">Purnama Yasa</a> &copy; 2018 | Powered by Modular Admin Theme</small>
+    <small><a href="mailto:yasapurnama@gmail.com" target="_blank">Purnama Yasa</a> &copy; 2018 | Powered by Modular Admin Theme</small>
   </div><!--//container-->
 </footer><!--//footer-->
 
