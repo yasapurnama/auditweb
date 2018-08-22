@@ -80,7 +80,7 @@ Gaining website information made easy with Web Scraping Technique.</p>
                                 <i class="icon fa fa-pie-chart"></i>
                             </div><!--//icon-holder-->
                             <h3 class="title">Audit Website</h3>
-                            <p class="intro">Audit website basic meta data and informations</p>
+                            <p class="intro">Audit website basic metadata and informations</p>
                         </div><!--//item-inner-->
                     </div><!--//item-->
                     <div class="item item-pink item-2 col-md-4 col-sm-6 col-xs-6">
