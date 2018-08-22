@@ -353,16 +353,15 @@ class AuditController extends Controller
                                     $statusheartbleed = '<img src="https://mxtoolbox.com/public/images/statusicons/ok.png" width="17">';
                                     break;
                                 case 'warning':
-                                    $vuln_heartbleed = true;
                                     $statusheartbleed = '<img src="https://mxtoolbox.com/public/images/statusicons/warning.png" width="17">';
                                     break;
                                 case 'error':
-                                    $vuln_heartbleed = true;
                                     $statusheartbleed = '<img src="https://mxtoolbox.com/public/images/statusicons/problem.png" width="17">';
                                     break;
                                 default:
                                     $statusheartbleed = '';
                             }
+                            $vuln_heartbleed = str_contains($result->html(), 'server is vulnerable to the Heartbleed');
                             $heartbleedname = $result->filter('h2')->eq(0)->text();
                             $heartbleeddetail = !$result->filter('h2')->eq(0)->nextAll()->attr('class') ? $result->filter('h2')->eq(0)->nextAll()->html() : '';
                             $ssl_info .= "<tr>
